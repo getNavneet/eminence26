@@ -1,183 +1,352 @@
 {
-  "_comment": "Key format: categoryId__eventIndex (matches events.json order). Edit rules here freely — events.json stays unchanged.",
+  "_comment": "Key: categoryId__eventIndex. All fields are optional — only present fields are rendered.",
 
   "technical__0": {
     "tagline": "Hunt the bug. Beat the clock.",
-    "team": "1–2 members",
-    "duration": "60 minutes",
+    "fee": "₹50 per person",
+    "team": "Individual",
+    "duration": "1 hour",
+    "coordinators": [
+      { "name": "Shikha",    "phone": "75054968777" },
+      { "name": "Saumyajit", "phone": "74282146499" },
+      { "name": "Dhairya",   "phone": "8930641741"  }
+    ],
+    "about": "Debug-A-Thon is a competitive and engaging coding event where participants will identify and resolve errors in code. The competition is designed to test coding proficiency, enhance problem-solving skills, and foster a spirit of competition in a dynamic environment.",
+    "rounds": [
+      {
+        "title": "Round 1",
+        "duration": "1 hour",
+        "description": "Participants are given buggy code snippets and must identify and fix all errors within the time limit."
+      }
+    ],
     "rules": [
-      "Each team will be given a buggy code snippet in a language of their choice (C, C++, Python, or Java).",
-      "Participants must identify and fix all bugs within the given time limit.",
-      "Use of the internet, AI tools, or external references is strictly prohibited.",
-      "Code must compile and produce the correct expected output to be considered valid.",
-      "Partial fixes will receive partial marks based on the judge's evaluation.",
-      "Teams found using unfair means will be disqualified immediately.",
-      "The decision of the judges is final and binding."
+      "Personal laptops are strictly prohibited.",
+      "All participants must have an active HackerRank account prior to the event.",
+      "Any form of malpractice, rule violation, or dishonesty will result in immediate disqualification.",
+      "Participants are strongly encouraged to review and practice topics related to Data Structures and Algorithms (DSA)."
+    ],
+    "judging": [
+      "The decisions made by the judging panel will be final and binding.",
+      "No requests for reconsideration or appeals will be entertained."
     ]
   },
 
   "technical__1": {
     "tagline": "Design the web. Express yourself.",
-    "team": "1–3 members",
-    "duration": "90 minutes",
+    "fee": "₹80",
+    "team": "1–2 Members",
+    "coordinators": [
+      { "name": "Palak",    "phone": "9027295326" },
+      { "name": "Himanshu", "phone": "8219063956" }
+    ],
+    "about": "Web Designing is not about technical skills — it's a platform for fostering creativity and innovation. By participating, students will not only enhance their web development prowess but also unleash their potential to create ground-breaking digital experiences.",
+    "rounds": [
+      {
+        "title": "UI Development Round",
+        "description": "A UI design implementation round — organizers will provide the UI design. You must complete it within the given time. Judgment will be based on how quickly and accurately you complete the design.",
+        "note": "Platform: CodePen (https://codepen.io) · Languages: HTML, CSS, JavaScript"
+      }
+    ],
     "rules": [
-      "Teams must design and develop a webpage based on the theme revealed at the start of the event.",
-      "Only HTML, CSS, and vanilla JavaScript are allowed. No frameworks or libraries.",
-      "All assets (images, fonts, icons) must be either self-created or royalty-free.",
-      "Internet access is permitted only for downloading assets, not for copying code.",
-      "The final submission must be a working, self-contained HTML file.",
-      "Judging criteria: creativity (40%), functionality (30%), responsiveness (30%).",
-      "Plagiarism or use of templates will result in immediate disqualification."
+      "All participants must have an account on CodePen using their college ID (https://codepen.io).",
+      "Personal system (laptop) is compulsory.",
+      "Academic integrity is expected; any form of dishonest behaviour will not be tolerated.",
+      "Network and internet issues are not the responsibility of the organizers.",
+      "Decisions made by the judges will be final.",
+      "All members will receive certificates; winners will also receive trophies."
     ]
   },
 
   "technical__2": {
     "tagline": "Pitch your idea. Win the sharks.",
-    "team": "2–4 members",
-    "duration": "5 min pitch + 3 min Q&A",
+    "fee": "₹80 per team",
+    "team": "Team of 2 Members",
+    "coordinators": [
+      { "name": "Sankalp", "phone": "9926685947" },
+      { "name": "Nayan",   "phone": "9915310345" }
+    ],
+    "about": "Mini Shark Tank is an exciting entrepreneurial event where participants pitch their innovative business ideas to a panel of judges acting as 'Sharks'. Teams will present their startup concepts, explain their business model, and convince the judges about the potential of their idea. The competition promotes innovation, creativity, business thinking, and problem-solving skills among students.",
+    "rounds": [
+      {
+        "title": "Round 1 — Pre-Screening Pitch",
+        "description": "All registered teams will be invited before the day of Eminence. Each team pitches their own product, startup idea, software, or innovative concept.",
+        "judging_criteria": ["Product or Software Idea", "Pitching Skills — Confidence and Communication", "Proposed Solution", "Creativity and Innovation", "Target Audience / Users", "Clarity of Idea"],
+        "note": "Selected teams will be shortlisted for Round 2 on the day of Eminence."
+      },
+      {
+        "title": "Round 2 — Final Shark Pitch",
+        "description": "Shortlisted teams compete in the final round on the day of Eminence. Participants are given a specific product, software, or concept by the organizing committee and must quickly analyze and pitch it.",
+        "note": "Basic presentation support (PPT if allowed) may be used. Judges may ask about idea feasibility, investment requirement, and implementation strategy."
+      }
+    ],
     "rules": [
-      "Each team must present an original business or tech idea to a panel of judges.",
-      "Presentation time is strictly 5 minutes; a warning bell rings at 4:30.",
-      "A 3-minute Q&A session follows every pitch — be prepared for tough questions.",
-      "Slides are optional but must be submitted 30 minutes before the event starts.",
-      "Ideas must be original and not previously funded or launched as a real business.",
-      "Judging criteria: innovation (30%), feasibility (25%), market potential (25%), presentation (20%).",
-      "Props, demos, or prototypes are encouraged and will earn bonus consideration."
+      "Participants must maintain professional conduct during the event.",
+      "Any form of plagiarism, malpractice, or rule violation will result in immediate disqualification.",
+      "The best pitchers among all participants will be declared the winners."
     ]
   },
 
   "technical__3": {
     "tagline": "Build it. Show it. Inspire them.",
-    "team": "2–5 members",
-    "duration": "Exhibition format",
+    "fee": "₹120",
+    "team": "1–4 Members",
+    "coordinators": [
+      { "name": "Nitin Raj", "phone": "7295027029" }
+    ],
+    "about": "The event consists of an exclusive exhibition of working projects and models. Projects can be hardware-type, software-type, or a combination of both.",
+    "rounds": [
+      {
+        "title": "Exhibition Round",
+        "description": "Teams display their working project or prototype at an assigned booth. Judges visit each stall and teams must give a clear explanation of their model.",
+        "judging_criteria": ["Innovation & Originality", "Functionality & Working Demo", "Presentation & Explanation", "Impact & Practical Application"]
+      }
+    ],
     "rules": [
-      "Teams must display a working project (hardware, software, or hybrid) at their assigned booth.",
-      "Projects must have been built by the team members themselves; pre-made kits are not allowed.",
-      "A working demo must be available throughout the exhibition for judges and attendees.",
-      "A 2-minute verbal explanation of the project is required when judges visit.",
-      "All necessary equipment, power banks, and materials must be brought by the team.",
-      "Judging criteria: innovation (35%), functionality (30%), presentation (20%), impact (15%).",
-      "Teams must be present at their stall at all times during judging hours."
+      "Individual as well as team-based participation is accepted.",
+      "Projects can be from Physics, Electronics, Electrical, Mechanical, Civil, Aeronautical, Mathematics, Chemistry, Computer Science & IT, Life Sciences, Pharmacy, Food Sciences, and others.",
+      "Laptops must be carried by the team wherever required, along with an internet facility.",
+      "Teams must be present at their stall at all times to explain their models to judges.",
+      "The judge's decision will be final."
+    ],
+    "judging": [
+      "Judgment sheets will be provided to the judges who will evaluate the projects accordingly.",
+      "The decisions made by the judging panel will be final and binding.",
+      "No requests for reconsideration or appeals will be entertained."
     ]
   },
 
   "technical__4": {
     "tagline": "Decode. Navigate. Conquer.",
-    "team": "3–4 members",
-    "duration": "75 minutes",
+    "fee": "₹50 per person",
+    "team": "Individual",
+    "duration": "30–40 minutes",
+    "coordinators": [
+      { "name": "Gunjanpreet Singh", "phone": "8000725706" },
+      { "name": "Harsh Bardhan",     "phone": "9117456187" },
+      { "name": "Anshika",           "phone": "9760864394" }
+    ],
+    "about": "Participants must locate hidden folders containing parts of a program code. The folders are placed in different computer locations and shuffled. Participants must collect all folders, arrange the code in the correct order, assemble the full program, and run it successfully.",
+    "rounds": [
+      {
+        "title": "Hunt Round",
+        "duration": "30–40 minutes",
+        "description": "The program is divided into 4–5 folders, each hidden in a different computer location. The first clue is given verbally by the organizer. Participants must locate all folders, collect the code, arrange it correctly, and run the final program."
+      }
+    ],
     "rules": [
-      "Teams will receive an initial clue and must solve a series of technical puzzles to find subsequent clues.",
-      "Clues are spread across the college campus; teams must not damage or move any clue markers.",
-      "Mobile phones may be used for calculations only — browsing, calling, or messaging is prohibited.",
-      "Each team gets one lifeline: a 60-second hint from the organizer, usable only once.",
-      "The team that reaches the final location first with all correct answers wins.",
-      "Running inside the college building is not permitted.",
-      "Any team found tampering with another team's clues will be disqualified."
+      "Follow clues to locate folders.",
+      "Do not delete, rename, or modify event folders or files.",
+      "Do not randomly open folders without solving clues.",
+      "Communication with other participants is not allowed."
+    ],
+    "judging": [
+      "First participant to correctly assemble and run the program wins.",
+      "If no one finishes, the participant who reaches the farthest stage fastest wins."
+    ],
+    "disqualification": [
+      "Modifying or deleting event folders/files.",
+      "Interfering with other participants.",
+      "Using unfair methods to access answers."
     ]
   },
 
   "technical__5": {
     "tagline": "Prompt it. Generate it. Amaze them.",
-    "team": "1–2 members",
-    "duration": "45 minutes",
+    "fee": "₹50",
+    "team": "Individual",
+    "coordinators": [
+      { "name": "Srijan Kumari", "phone": "9911447198" }
+    ],
+    "about": "Explore the creative power of Artificial Intelligence through video storytelling! This event challenges participants to generate an engaging and creative video using AI tools. Participants will transform their ideas into short visual stories using modern AI platforms, encouraging innovation, creativity, and the practical use of AI technology.",
+    "rounds": [
+      {
+        "title": "Round 1 — AI Video Creation",
+        "description": "Participants create a short video using AI tools based on a theme provided at the start. The video must clearly represent the given theme.",
+        "note": "Video duration: 30 seconds to 1 minute. Participants will be given a fixed time limit to generate and submit their video.",
+        "judging_criteria": ["Creativity & Originality", "Use of AI Tools", "Relevance to Theme", "Visual & Audio Quality", "Storytelling & Content"]
+      }
+    ],
     "rules": [
-      "Participants must create a short video (30–90 seconds) using any AI video generation tool.",
-      "The video must be based on the theme announced at the start of the event.",
-      "Allowed tools: Sora, Runway, Pika, Kling, or any other publicly available AI video generator.",
-      "Participants must submit both the final video and the prompts used to create it.",
-      "Videos must be original; pre-generated or pre-downloaded videos are not allowed.",
-      "Judging criteria: creativity (40%), theme relevance (30%), video quality (30%).",
-      "Explicit, offensive, or copyrighted content will lead to immediate disqualification."
+      "Laptops are allowed.",
+      "Only AI-generated or AI-assisted content should be used in the video.",
+      "Pre-made or copied video content is not allowed.",
+      "The final video must be submitted within the time limit.",
+      "Cheating will lead to disqualification.",
+      "Judges' and coordinators' decisions will be final."
     ]
   },
 
   "technical__6": {
     "tagline": "Think fast. Answer faster.",
+    "fee": "₹50",
     "team": "Individual",
-    "duration": "30 minutes",
+    "coordinators": [
+      { "name": "Subodh",    "phone": "7009480367" },
+      { "name": "Aditi Raj", "phone": "9508049714" }
+    ],
+    "about": "APTI QUIZ is an exciting quiz competition designed to test participants' logical reasoning, quantitative aptitude, analytical thinking, and problem-solving abilities. The event challenges students to think quickly, analyze problems efficiently, and apply fundamental aptitude concepts under time constraints.",
+    "rounds": [
+      {
+        "title": "Rapid Fire Round",
+        "description": "Qualified participants face a rapid-fire aptitude challenge. Questions are displayed one by one and participants must answer within the given time limit.",
+        "judging_criteria": ["Quick Calculations", "Logical Puzzles", "Analytical Reasoning"],
+        "note": "Winners will be determined based on accuracy and speed."
+      }
+    ],
     "rules": [
-      "The quiz consists of 30 multiple-choice questions covering logical reasoning, quantitative aptitude, and verbal ability.",
-      "Each correct answer awards 1 mark; there is no negative marking.",
-      "Participants must use only the provided answer sheet; rough work on any other paper is not allowed.",
-      "Use of mobile phones, calculators, or any electronic device is strictly prohibited.",
-      "Once the answer sheet is submitted, no changes can be made.",
-      "In case of a tie, a rapid-fire sudden death round will be conducted.",
-      "The quiz will begin exactly at the scheduled time; latecomers will not be given extra time."
+      "The event is individual participation only.",
+      "Participants must report to the venue 30 minutes before the event starts.",
+      "Mobile phones, calculators, or any electronic devices are strictly prohibited.",
+      "Participants must follow all instructions given by the event coordinators.",
+      "Any form of cheating, malpractice, or use of unfair means will result in immediate disqualification.",
+      "Participants who arrive late may not be allowed to participate.",
+      "The decision of the judges and organizing committee will be final and binding."
     ]
   },
 
   "nontechnical__0": {
     "tagline": "Drop in. Be the last squad standing.",
-    "team": "Squad of 4",
-    "duration": "Best of 3 matches",
+    "fee": "₹120 per team",
+    "team": "Team of 4 Members",
+    "about": "The BGMI event is an exciting competitive gaming event where teams battle against each other in Battlegrounds Mobile India (BGMI) to prove their strategy, teamwork, and survival skills.",
+    "rounds": [
+      {
+        "title": "Round 1 — Qualifier",
+        "description": "100 teams divided into 4 groups of 25. Each group plays 1 match on Erangel.",
+        "note": "Top 8 teams from each group qualify → 32 teams advance to Round 2."
+      },
+      {
+        "title": "Round 2 — Semi-Final",
+        "description": "32 teams divided into 2 groups of 16. Each group plays 1 match on Sanhok.",
+        "note": "Top 8 teams from each group qualify → 16 teams advance to the Final."
+      },
+      {
+        "title": "Round 3 — Final",
+        "description": "All 16 remaining teams compete in the Final Match on Miramar.",
+        "note": "Top 3 teams based on total points (placement + kills) are declared winners."
+      }
+    ],
+    "scoring": {
+      "title": "Points System",
+      "placement": [
+        { "rank": "1st place",      "points": 10 },
+        { "rank": "2nd place",      "points": 8  },
+        { "rank": "3rd place",      "points": 6  },
+        { "rank": "4th place",      "points": 5  },
+        { "rank": "5th place",      "points": 4  },
+        { "rank": "6th–8th place",  "points": 1  }
+      ],
+      "kill_points": "1 point per kill"
+    },
     "rules": [
-      "Each squad must consist of exactly 4 players registered under a single team name.",
-      "Players must use their own mobile devices; emulators are strictly not allowed.",
-      "The match mode will be Classic Squad on a map decided by the organizers.",
-      "Cheating, hacking, or use of mods will result in permanent disqualification of the entire squad.",
-      "All players must be present at the venue at least 15 minutes before match time.",
-      "Points are calculated based on kills and final placement using the official BGMI tournament scoring system.",
-      "The organizer's decision regarding any dispute is final."
+      "All participants must have the latest version of BGMI installed.",
+      "Players must download the maps — Erangel, Sanhok, and Miramar — before the tournament.",
+      "Late entries will not be allowed.",
+      "If any participant is found cheating or using unfair means, they will be disqualified immediately.",
+      "All players must be present in the gaming hall during the event.",
+      "Charging points will not be provided — participants must bring their phones fully charged.",
+      "Wi-Fi or internet will not be provided. Players must use their own mobile data.",
+      "Participants must fill the registration form carefully. If a mistake occurs, contact the coordinator — do not submit another form.",
+      "After the Room ID and Password are shared, teams have only 7–8 minutes to join the room.",
+      "If any player participates online and the organizers request POV recording, the player must provide it. Failure to do so may lead to disqualification."
     ]
   },
 
   "nontechnical__1": {
     "tagline": "Every move matters. Outthink your opponent.",
     "team": "Individual",
-    "duration": "10 min per player (Rapid)",
+    "about": "A classic chess tournament following standard FIDE rules, testing strategy, foresight, and mental sharpness.",
     "rules": [
       "The tournament follows standard FIDE chess rules.",
       "Time control is Rapid: 10 minutes per player with no increment.",
       "A player who runs out of time loses the game, regardless of board position.",
       "Touching a piece obligates the player to move it if a legal move exists (touch-move rule).",
       "Mobile phones must be switched off or kept face-down during the match.",
-      "Matches are played in a Swiss-system format; the top players advance to knockout rounds.",
+      "Matches are played in a Swiss-system format; top players advance to knockout rounds.",
       "Disputes must be raised immediately and will be settled by the designated arbiter."
     ]
   },
 
   "nontechnical__2": {
     "tagline": "Your face is the canvas.",
-    "team": "Pairs (1 artist + 1 model)",
-    "duration": "45 minutes",
+    "team": "Individual (with 1 volunteer partner as model)",
+    "duration": "1 hour",
+    "about": "A creative face painting event where participants showcase their artistic skills by painting on a volunteer partner. The theme is announced on the spot, challenging artists to think creatively and work quickly.",
+    "rounds": [
+      {
+        "title": "Live Painting Round",
+        "duration": "1 hour",
+        "description": "Participants paint on the face of their volunteer model based on the theme announced at the start. Participants arriving late will not be given extra time."
+      }
+    ],
     "rules": [
-      "Each pair consists of one artist and one model; both must be registered participants.",
-      "Only face-safe, water-based, non-toxic paints are allowed. Bring your own supplies.",
-      "The design theme will be revealed 5 minutes before the event starts.",
-      "Participants must stop painting immediately when time is called.",
-      "Glitter, gems, and accessories may be used as additions but must be safe for skin.",
-      "Judging criteria: creativity (40%), theme relevance (35%), neatness (25%).",
-      "Pre-drawn stencils or pre-painted models are not allowed."
+      "Each participant must bring one volunteer partner who will act as the model.",
+      "Participants must bring their own face painting materials (paints, brushes, sponges, wipes, etc.).",
+      "Only skin-safe, non-toxic face paints are allowed.",
+      "The theme will be announced on the spot.",
+      "Painting should be done only on the face of the volunteer.",
+      "Use of mobile phones, reference images, or internet sources during the event is not allowed.",
+      "Participants must maintain cleanliness and safety while using paints.",
+      "Prize will be awarded only to the participant, not the volunteer.",
+      "Any participant found violating the rules or using unfair means will be disqualified."
+    ],
+    "judging": [
+      "The decision of the judges will be final and binding.",
+      "No appeals or reconsideration requests will be entertained."
     ]
   },
 
   "nontechnical__3": {
     "tagline": "Pure strength. No excuses.",
+    "fee": "₹50 per person",
     "team": "Individual",
-    "duration": "Knockout rounds",
+    "coordinators": [
+      { "name": "Sidhant Singla", "phone": "8360100950" },
+      { "name": "Shivam",         "phone": "7417256996" }
+    ],
+    "about": "Arm wrestling is a sport where two competitors try to pin the opponent's hand to the table. Official matches follow rules to ensure fairness and safety.",
+    "rounds": [
+      {
+        "title": "Knockout Format",
+        "description": "Single-elimination knockout rounds. Matches continue until one winner is determined."
+      }
+    ],
     "rules": [
-      "Competition is conducted in a single-elimination knockout format.",
-      "Participants are categorized by gender; mixed-gender matches are at the participant's discretion.",
-      "Both players must grip the handle with the elbow on the pad; the referee sets the starting position.",
-      "The match begins only after the referee gives the 'Go' signal.",
-      "A point is won when the opponent's hand is pinned to the pad. Best of 3 points wins the match.",
-      "Lifting the elbow off the pad, slipping the grip, or using the shoulder illegally results in a foul.",
-      "Two fouls in a match result in a forfeit of that match."
+      "Starting Position: Both players stand facing each other with one elbow on the elbow pad. Hands grip in the center and the free hand holds the table peg.",
+      "The match begins only when the referee says 'Go'.",
+      "Win by pressing the opponent's hand down until their hand or fingers touch the pin pad.",
+      "Elbow Rule: Your elbow must stay on the elbow pad. Lifting it results in a foul.",
+      "Shoulders must stay in a safe position and follow referee instructions.",
+      "No re-gripping after the match starts unless the referee stops the match.",
+      "Fouls: Early start, lifting elbow, letting go of the peg, or intentional slipping. Two fouls may cause a loss.",
+      "Dangerous positions or moves can cause the referee to stop the match to prevent injury."
     ]
   },
 
   "nontechnical__4": {
-    "tagline": "Recreate the pixel. Spot the image.",
-    "team": "1–2 members",
-    "duration": "30 minutes",
+    "tagline": "See it. Capture it. Own it.",
+    "fee": "₹50 per person",
+    "team": "Individual",
+    "duration": "1 hour",
+    "coordinators": [
+      { "name": "Tanish Jassal", "phone": "8627062554" }
+    ],
+    "about": "A photography event where students are given a theme on the spot and one hour to capture a photo anywhere on campus. The event tests creativity, composition, and the ability to tell a story through a single frame.",
+    "rounds": [
+      {
+        "title": "Campus Photography Round",
+        "duration": "1 hour",
+        "description": "A theme is announced at the start. Participants have 1 hour to capture the perfect photograph anywhere within the CGC campus. Submissions are made via a Google Form provided at the event."
+      }
+    ],
     "rules": [
-      "Teams will be shown a pixelated or partially revealed image and must identify or recreate it.",
-      "There are multiple rounds: identification round and a recreation round on grid paper.",
-      "Internet access, mobile phones, and reference materials are not allowed.",
-      "Teams must write their answers clearly on the provided answer sheet.",
-      "Judging in the recreation round is based on accuracy and completeness.",
-      "Teams have a maximum of 3 skip attempts across all rounds combined.",
-      "The team with the highest cumulative score across all rounds wins."
+      "Participants will be given one hour to capture the perfect photograph.",
+      "The photograph must be taken within the CGC campus, adhering to the specified guidelines.",
+      "Use of previously captured photos or images sourced from the internet will lead to immediate disqualification.",
+      "Participants must bring their own mobile phones.",
+      "Submissions will not be accepted after the allocated time frame.",
+      "Participants may collaborate with friends as models if required.",
+      "A Google Form will be provided for photo submissions."
     ]
   },
 
@@ -185,14 +354,20 @@
     "tagline": "A pencil, a blank page, your imagination.",
     "team": "Individual",
     "duration": "60 minutes",
+    "about": "A freehand sketching competition where participants are given a topic on the spot and must create a sketch that is original, expressive, and technically skilled.",
     "rules": [
       "The topic or subject for sketching will be announced at the start of the event.",
       "Only pencils, charcoal, and erasers are allowed. Pens, markers, or colours are not permitted.",
       "Participants must bring their own art supplies; A3 sketch paper will be provided.",
       "Tracing, stenciling, or use of reference images is not allowed.",
       "Participants must stop drawing immediately when time is called by the invigilator.",
-      "Judging criteria: creativity (35%), technique (30%), theme relevance (20%), composition (15%).",
-      "Sketches must remain anonymous during judging; do not write your name on the front of the sheet."
+      "Sketches must remain anonymous during judging — do not write your name on the front of the sheet."
+    ],
+    "judging": [
+      "Creativity — 35%",
+      "Technique — 30%",
+      "Theme Relevance — 20%",
+      "Composition — 15%"
     ]
   }
 }

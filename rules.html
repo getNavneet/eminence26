@@ -11,7 +11,6 @@
 </head>
 <body>
 
-<!-- Starfield -->
 <canvas id="stars"></canvas>
 
 <!-- ══ HEADER ══ -->
@@ -23,70 +22,56 @@
   <nav class="header-nav">
     <button class="nav-btn" id="backBtn" onclick="showGrid()">← All Events</button>
     <a class="nav-btn" href="index.html">🏠 Home</a>
-    <a class="nav-btn register" id="headerRegister" href="#" target="_blank" rel="noopener" style="display:none">
-      Register →
-    </a>
+    <a class="nav-btn register" id="headerRegister" href="#" target="_blank" rel="noopener" style="display:none">Register →</a>
   </nav>
 </header>
 
-<!-- ══ APP ══ -->
 <main id="rulesApp">
   <p class="loading-msg">Loading events…</p>
 </main>
 
 <script>
-/* ════════════════════════════════════
-   DATA LAYER
-════════════════════════════════════ */
-let eventsData = null;
+/* ════════════════════════════════
+   DATA
+════════════════════════════════ */
+let _events = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Fetch both files in parallel — rulebook.json is separate from events.json
   Promise.all([
     fetch('events.json').then(r => { if (!r.ok) throw new Error('Cannot load events.json'); return r.json(); }),
     fetch('rulebook.json').then(r  => { if (!r.ok) throw new Error('Cannot load rulebook.json');  return r.json(); })
   ])
-    .then(([evData, rulesData]) => {
-      eventsData = evData;
-      rulesData  = rulesData; // store globally
-      window._rulesData = rulesData;
-      initStarfield();
-      router(); // handle initial URL hash
-    })
-    .catch(err => {
-      document.getElementById('rulesApp').innerHTML =
-        `<p class="loading-msg">⚠️ ${err.message}</p>`;
-    });
+  .then(([ev, ru]) => {
+    _events = ev;
+    window._rules = ru;
+    initStarfield();
+    router();
+  })
+  .catch(err => {
+    document.getElementById('rulesApp').innerHTML = `<p class="loading-msg">⚠️ ${err.message}</p>`;
+  });
 
   window.addEventListener('hashchange', router);
 });
 
-/* ════════════════════════════════════
-   ROUTER  — #event/categoryId/index
-════════════════════════════════════ */
+/* ════════════════════════════════
+   ROUTER
+════════════════════════════════ */
 function router() {
-  const hash = location.hash; // e.g. "#event/technical/0"
-  const match = hash.match(/^#event\/([^/]+)\/(\d+)$/);
-
-  if (match) {
-    const catId  = match[1];
-    const evIdx  = parseInt(match[2], 10);
-    const cat    = eventsData?.categories.find(c => c.id === catId);
-    const ev     = cat?.events[evIdx];
-    if (cat && ev) {
-      showDetail(cat, ev, evIdx);
-      return;
-    }
+  const m = location.hash.match(/^#event\/([^/]+)\/(\d+)$/);
+  if (m) {
+    const cat = _events?.categories.find(c => c.id === m[1]);
+    const ev  = cat?.events[+m[2]];
+    if (cat && ev) { showDetail(cat, ev, +m[2]); return; }
   }
   showGrid();
 }
 
-/* ════════════════════════════════════
-   GRID VIEW — all events
-════════════════════════════════════ */
+/* ════════════════════════════════
+   GRID VIEW
+════════════════════════════════ */
 function showGrid() {
-  // Update header
-  document.getElementById('backBtn').style.display      = 'none';
+  document.getElementById('backBtn').style.display        = 'none';
   document.getElementById('headerRegister').style.display = 'none';
   document.title = 'Event Rules — EMINENCE 2K26';
   if (location.hash.startsWith('#event')) history.pushState('', '', location.pathname);
@@ -94,79 +79,57 @@ function showGrid() {
   const app = document.getElementById('rulesApp');
   app.innerHTML = '';
 
-  // Page hero
+  // Hero
   const hero = el('div', { class: 'page-hero' });
   hero.innerHTML = `
     <div class="page-hero-label">EMINENCE 2K26</div>
     <h1 class="page-hero-title">Event Rules</h1>
-    <p class="page-hero-sub">Select an event to view its rules &amp; regulations</p>
+    <p class="page-hero-sub">Select an event to read its rules &amp; regulations</p>
   `;
   app.appendChild(hero);
 
-  // Categories
-  eventsData.categories.forEach(cat => {
-    const section = el('div', { class: 'cat-section' });
-
-    const isNontech = cat.theme === 'nontech';
-    section.innerHTML = `
+  // Category sections
+  _events.categories.forEach(cat => {
+    const nt  = cat.theme === 'nontech';
+    const sec = el('div', { class: 'cat-section' });
+    sec.innerHTML = `
       <div class="cat-heading-row">
-        <div class="cat-heading-line ${isNontech ? 'nontech-l' : ''}"></div>
+        <div class="cat-heading-line ${nt ? 'nl' : ''}"></div>
         <h2 class="cat-heading-title ${cat.theme}">${cat.emoji} ${esc(cat.label)}</h2>
-        <div class="cat-heading-line ${isNontech ? 'nontech-r' : 'r'}"></div>
+        <div class="cat-heading-line ${nt ? 'nr' : 'r'}"></div>
       </div>
     `;
 
-    const grid = el('div', { class: `rules-grid${isNontech ? ' nontech-grid' : ''}` });
-
+    const grid = el('div', { class: `rules-grid${nt ? ' nontech-grid' : ''}` });
     cat.events.forEach((ev, i) => {
-      const card = el('div', {
-        class: 'rules-card',
-        role: 'button',
-        tabindex: '0',
-        style: `animation-delay:${i * 0.06}s`,
-        'data-cat': cat.id,
-        'data-idx': i
-      });
+      const card = el('div', { class: 'rules-card', role: 'button', tabindex: '0', style: `animation-delay:${i*0.06}s` });
       card.innerHTML = `
         <div class="rc-emoji">${ev.emoji}</div>
         <div class="rc-name">${esc(ev.name)}</div>
         <div class="rc-hint">View Rules →</div>
       `;
-      card.addEventListener('click', () => {
-        location.hash = `#event/${cat.id}/${i}`;
-      });
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') location.hash = `#event/${cat.id}/${i}`;
-      });
+      card.addEventListener('click', () => { location.hash = `#event/${cat.id}/${i}`; });
+      card.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') location.hash=`#event/${cat.id}/${i}`; });
       grid.appendChild(card);
     });
 
-    section.appendChild(grid);
-    app.appendChild(section);
+    sec.appendChild(grid);
+    app.appendChild(sec);
   });
 
-  // Scroll reveal for cards
   window.scrollTo({ top: 0, behavior: 'instant' });
   initCardReveal();
 }
 
-/* ════════════════════════════════════
-   DETAIL VIEW — single event rules
-════════════════════════════════════ */
-function showDetail(cat, ev, evIdx) {
-  const isNontech = cat.theme === 'nontech';
+/* ════════════════════════════════
+   DETAIL VIEW
+════════════════════════════════ */
+function showDetail(cat, ev, idx) {
+  const nt  = cat.theme === 'nontech';
+  const key = `${cat.id}__${idx}`;
+  const r   = (window._rules || {})[key] || {};
 
-  // Look up rules from the separate rulebook.json (keyed by categoryId__eventIndex)
-  const key      = `${cat.id}__${evIdx}`;
-  const ruleMeta = (window._rulesData || {})[key] || {};
-
-  // Merge rule metadata onto the event object for display
-  const tagline  = ruleMeta.tagline  || '';
-  const team     = ruleMeta.team     || '';
-  const duration = ruleMeta.duration || '';
-  const rulesList = ruleMeta.rules   || [];
-
-  // Update header
+  // Header
   document.getElementById('backBtn').style.display = 'inline-flex';
   const regBtn = document.getElementById('headerRegister');
   regBtn.style.display = 'inline-flex';
@@ -176,82 +139,176 @@ function showDetail(cat, ev, evIdx) {
   const app = document.getElementById('rulesApp');
   app.innerHTML = '';
 
-  const wrap = el('div', { class: `detail-wrap${isNontech ? ' nontech' : ''}` });
+  const wrap = el('div', { class: `detail-wrap${nt ? ' nontech' : ''}` });
+  const nc   = nt ? ' nontech-card' : '';
 
-  // ── Hero block ──
-  const rulesHTML = rulesList.map((rule, i) => `
-    <li style="animation-delay:${0.15 + i * 0.07}s">
-      <span class="rule-num">${String(i + 1).padStart(2, '0')}</span>
-      <span class="rule-text">${esc(rule)}</span>
-    </li>
-  `).join('');
+  // ── 1. HERO ──
+  wrap.appendChild(buildHero(ev, r, cat));
 
-  wrap.innerHTML = `
-    <!-- Event hero -->
-    <div class="detail-hero">
-      <span class="detail-emoji">${ev.emoji}</span>
-      <h1 class="detail-name">${esc(ev.name)}</h1>
-      ${tagline  ? `<p class="detail-tagline">${esc(tagline)}</p>` : ''}
-      <div class="detail-meta">
-        ${team     ? `<span class="meta-chip">👥 ${esc(team)}</span>`             : ''}
-        ${duration ? `<span class="meta-chip purple">⏱ ${esc(duration)}</span>` : ''}
-        <span class="meta-chip">${esc(cat.label)}</span>
-      </div>
-    </div>
+  // ── 2. ABOUT ──
+  if (r.about) wrap.appendChild(buildCard('📖', 'About', nc, `<p class="about-text">${esc(r.about)}</p>`));
 
-    <div class="detail-divider"></div>
+  // ── 3. COORDINATORS ──
+  if (r.coordinators?.length) wrap.appendChild(buildCard('📞', 'Coordinators', nc, buildCoordinators(r.coordinators)));
 
-    <!-- Rules box -->
-    <div class="rules-box">
-      <div class="rules-box-header">
-        <span style="font-size:1rem">📋</span>
-        <span class="rules-box-title">Rules &amp; Regulations</span>
-      </div>
-      <ul class="rules-list">
-        ${rulesHTML || '<li><span class="rule-num">—</span><span class="rule-text">Rules coming soon.</span></li>'}
-      </ul>
-    </div>
+  // ── 4. ROUNDS ──
+  if (r.rounds?.length) wrap.appendChild(buildCard('🏁', 'Competition Structure', nc, buildRounds(r.rounds, nt)));
 
-    <!-- CTA -->
-    <div class="detail-cta">
-      <a class="cta-btn cta-register" href="${esc(ev.link || '#')}" target="_blank" rel="noopener">
-        ✦ Register Now
-      </a>
-      <button class="cta-btn cta-back" onclick="showGrid()">
-        ← All Events
-      </button>
-    </div>
+  // ── 5. RULES ──
+  if (r.rules?.length) wrap.appendChild(buildCard('📋', 'Rules & Regulations', nc, buildRules(r.rules)));
+
+  // ── 6. SCORING TABLE ──
+  if (r.scoring) wrap.appendChild(buildCard('🏆', 'Points System', nc, buildScoring(r.scoring)));
+
+  // ── 7. JUDGING ──
+  if (r.judging?.length) wrap.appendChild(buildCard('⚖️', 'Evaluation & Judging', nc, buildJudging(r.judging)));
+
+  // ── 8. DISQUALIFICATION ──
+  if (r.disqualification?.length) wrap.appendChild(buildCard('🚫', 'Disqualification Criteria', ' dq-card', buildDQ(r.disqualification)));
+
+  // ── 9. CTA ──
+  const cta = el('div', { class: 'detail-cta' });
+  cta.innerHTML = `
+    <a class="cta-btn cta-register" href="${esc(ev.link||'#')}" target="_blank" rel="noopener">✦ Register Now</a>
+    <button class="cta-btn cta-back" onclick="showGrid()">← All Events</button>
   `;
+  wrap.appendChild(cta);
 
   app.appendChild(wrap);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════
+   BUILDERS
+════════════════════════════════ */
+
+function buildHero(ev, r, cat) {
+  const div = el('div', { class: 'detail-hero' });
+  const feeChip      = r.fee      ? `<span class="meta-chip gold">💰 ${esc(r.fee)}</span>` : '';
+  const teamChip     = r.team     ? `<span class="meta-chip">👥 ${esc(r.team)}</span>` : '';
+  const durationChip = r.duration ? `<span class="meta-chip purple">⏱ ${esc(r.duration)}</span>` : '';
+  const catChip      = `<span class="meta-chip pink">${esc(cat.label)}</span>`;
+
+  div.innerHTML = `
+    <span class="detail-emoji">${ev.emoji}</span>
+    <h1 class="detail-name">${esc(ev.name)}</h1>
+    ${r.tagline ? `<p class="detail-tagline">${esc(r.tagline)}</p>` : ''}
+    <div class="detail-meta">
+      ${feeChip}${teamChip}${durationChip}${catChip}
+    </div>
+  `;
+  return div;
+}
+
+function buildCard(icon, title, extraClass, bodyHTML) {
+  const card = el('div', { class: `info-card${extraClass}` });
+  card.innerHTML = `
+    <div class="info-card-header">
+      <span class="info-card-icon">${icon}</span>
+      <span class="info-card-title">${title}</span>
+    </div>
+    <div class="info-card-body">${bodyHTML}</div>
+  `;
+  return card;
+}
+
+function buildCoordinators(coords) {
+  const chips = coords.map(c => `
+    <div class="coord-chip">
+      <span class="coord-name">${esc(c.name)}</span>
+      <span class="coord-sep">·</span>
+      <span class="coord-phone">📞 ${esc(c.phone)}</span>
+    </div>
+  `).join('');
+  return `<div class="coordinators-grid">${chips}</div>`;
+}
+
+function buildRounds(rounds, isNontech) {
+  const items = rounds.map((rd, i) => {
+    const criteria = rd.judging_criteria?.length
+      ? `<div class="round-criteria">${rd.judging_criteria.map(c => `<span class="criteria-tag">${esc(c)}</span>`).join('')}</div>`
+      : '';
+    return `
+      <div class="round-item" style="animation-delay:${i*0.08}s">
+        <div class="round-title">${esc(rd.title)}</div>
+        ${rd.duration ? `<div class="round-note">⏱ ${esc(rd.duration)}</div>` : ''}
+        <div class="round-desc">${esc(rd.description)}</div>
+        ${criteria}
+        ${rd.note ? `<div class="round-note">${esc(rd.note)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+  return `<div class="rounds-list">${items}</div>`;
+}
+
+function buildRules(rules) {
+  const items = rules.map((rule, i) => `
+    <li style="animation-delay:${0.05 + i*0.06}s">
+      <span class="rule-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="rule-text">${esc(rule)}</span>
+    </li>
+  `).join('');
+  return `<ul class="rules-list">${items}</ul>`;
+}
+
+function buildScoring(scoring) {
+  const rows = scoring.placement.map(p => `
+    <tr>
+      <td>${esc(p.rank)}</td>
+      <td>${p.points}</td>
+    </tr>
+  `).join('');
+  return `
+    <div class="scoring-wrap">
+      <table class="scoring-table">
+        <thead><tr><th>Placement</th><th>Points</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="kill-note">🔫 ${esc(scoring.kill_points)}</div>
+    </div>
+  `;
+}
+
+function buildJudging(judging) {
+  const items = judging.map((j, i) => `
+    <li style="animation-delay:${0.05 + i*0.06}s">
+      <span class="judging-bullet">✓</span>
+      <span class="judging-text">${esc(j)}</span>
+    </li>
+  `).join('');
+  return `<ul class="judging-list">${items}</ul>`;
+}
+
+function buildDQ(dq) {
+  const items = dq.map((d, i) => `
+    <li style="animation-delay:${0.05 + i*0.06}s">
+      <span class="dq-bullet">✕</span>
+      <span class="dq-text">${esc(d)}</span>
+    </li>
+  `).join('');
+  return `<ul class="dq-list">${items}</ul>`;
+}
+
+/* ════════════════════════════════
    STARFIELD
-════════════════════════════════════ */
+════════════════════════════════ */
 function initStarfield() {
   const canvas = document.getElementById('stars');
-  const ctx    = canvas.getContext('2d');
-  let stars    = [];
-
+  const ctx = canvas.getContext('2d');
+  let stars = [];
   function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    stars = Array.from({ length: 140 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.1 + 0.2,
-      a: Math.random(),
-      s: Math.random() * 0.004 + 0.001
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    stars = Array.from({length:140}, () => ({
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+      r: Math.random()*1.1+0.2, a: Math.random(), s: Math.random()*0.004+0.001
     }));
   }
   function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     stars.forEach(s => {
-      s.a += s.s; if (s.a > 1) s.a = 0;
-      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,230,255,${s.a})`; ctx.fill();
+      s.a += s.s; if(s.a>1) s.a=0;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,230,255,${s.a})`; ctx.fill();
     });
     requestAnimationFrame(draw);
   }
@@ -259,15 +316,15 @@ function initStarfield() {
   window.addEventListener('resize', resize);
 }
 
-/* ════════════════════════════════════
-   CARD REVEAL ON SCROLL
-════════════════════════════════════ */
+/* ════════════════════════════════
+   CARD SCROLL REVEAL
+════════════════════════════════ */
 function initCardReveal() {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.rules-card').forEach((c, i) => {
-          c.style.animationDelay = `${i * 0.06}s`;
+        entry.target.querySelectorAll('.rules-card').forEach((c,i) => {
+          c.style.animationDelay = `${i*0.06}s`;
           c.style.animationName  = 'none';
           requestAnimationFrame(() => { c.style.animationName = 'cardReveal'; });
         });
@@ -278,18 +335,18 @@ function initCardReveal() {
   document.querySelectorAll('.rules-grid').forEach(g => obs.observe(g));
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════
    HELPERS
-════════════════════════════════════ */
-function el(tag, attrs = {}) {
-  const node = document.createElement(tag);
-  Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
-  return node;
+════════════════════════════════ */
+function el(tag, attrs={}) {
+  const n = document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v]) => n.setAttribute(k,v));
+  return n;
 }
-function esc(str) {
-  return String(str)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
