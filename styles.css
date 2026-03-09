@@ -115,6 +115,28 @@ header {
   padding: 5rem 1.25rem 6rem;
   overflow: hidden;
 }
+.hero-actions{
+  margin-top:25px;
+}
+
+.rules-btn{
+  display:inline-block;
+  padding:12px 28px;
+  font-size:14px;
+  letter-spacing:1px;
+  text-decoration:none;
+  color:#0ff;
+  border:1px solid #0ff;
+  border-radius:30px;
+  backdrop-filter:blur(8px);
+  transition:all .3s ease;
+}
+
+.rules-btn:hover{
+  background:#0ff;
+  color:#000;
+  box-shadow:0 0 20px #0ff;
+}
 .hero-glow {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:

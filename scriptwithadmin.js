@@ -79,6 +79,9 @@ function buildHero(fest) {
     <h1 class="hero-title">${esc(fest.name).replace(' ', '<br>')}</h1>
     <p class="hero-sub">${esc(fest.tagline)}</p>
     <div class="hero-date">📅&nbsp; ${esc(fest.date)} &nbsp;·&nbsp; ${esc(fest.venue)}</div>
+    <div class="hero-actions">
+    <a href="rules.html" class="rules-btn">📜 View Rules</a>
+    </div>
 
     <!-- COUNTDOWN TIMER -->
     <div class="countdown-wrap" id="countdown" aria-live="polite" aria-label="Countdown to event">
