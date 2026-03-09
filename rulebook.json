@@ -1,0 +1,198 @@
+{
+  "_comment": "Key format: categoryId__eventIndex (matches events.json order). Edit rules here freely — events.json stays unchanged.",
+
+  "technical__0": {
+    "tagline": "Hunt the bug. Beat the clock.",
+    "team": "1–2 members",
+    "duration": "60 minutes",
+    "rules": [
+      "Each team will be given a buggy code snippet in a language of their choice (C, C++, Python, or Java).",
+      "Participants must identify and fix all bugs within the given time limit.",
+      "Use of the internet, AI tools, or external references is strictly prohibited.",
+      "Code must compile and produce the correct expected output to be considered valid.",
+      "Partial fixes will receive partial marks based on the judge's evaluation.",
+      "Teams found using unfair means will be disqualified immediately.",
+      "The decision of the judges is final and binding."
+    ]
+  },
+
+  "technical__1": {
+    "tagline": "Design the web. Express yourself.",
+    "team": "1–3 members",
+    "duration": "90 minutes",
+    "rules": [
+      "Teams must design and develop a webpage based on the theme revealed at the start of the event.",
+      "Only HTML, CSS, and vanilla JavaScript are allowed. No frameworks or libraries.",
+      "All assets (images, fonts, icons) must be either self-created or royalty-free.",
+      "Internet access is permitted only for downloading assets, not for copying code.",
+      "The final submission must be a working, self-contained HTML file.",
+      "Judging criteria: creativity (40%), functionality (30%), responsiveness (30%).",
+      "Plagiarism or use of templates will result in immediate disqualification."
+    ]
+  },
+
+  "technical__2": {
+    "tagline": "Pitch your idea. Win the sharks.",
+    "team": "2–4 members",
+    "duration": "5 min pitch + 3 min Q&A",
+    "rules": [
+      "Each team must present an original business or tech idea to a panel of judges.",
+      "Presentation time is strictly 5 minutes; a warning bell rings at 4:30.",
+      "A 3-minute Q&A session follows every pitch — be prepared for tough questions.",
+      "Slides are optional but must be submitted 30 minutes before the event starts.",
+      "Ideas must be original and not previously funded or launched as a real business.",
+      "Judging criteria: innovation (30%), feasibility (25%), market potential (25%), presentation (20%).",
+      "Props, demos, or prototypes are encouraged and will earn bonus consideration."
+    ]
+  },
+
+  "technical__3": {
+    "tagline": "Build it. Show it. Inspire them.",
+    "team": "2–5 members",
+    "duration": "Exhibition format",
+    "rules": [
+      "Teams must display a working project (hardware, software, or hybrid) at their assigned booth.",
+      "Projects must have been built by the team members themselves; pre-made kits are not allowed.",
+      "A working demo must be available throughout the exhibition for judges and attendees.",
+      "A 2-minute verbal explanation of the project is required when judges visit.",
+      "All necessary equipment, power banks, and materials must be brought by the team.",
+      "Judging criteria: innovation (35%), functionality (30%), presentation (20%), impact (15%).",
+      "Teams must be present at their stall at all times during judging hours."
+    ]
+  },
+
+  "technical__4": {
+    "tagline": "Decode. Navigate. Conquer.",
+    "team": "3–4 members",
+    "duration": "75 minutes",
+    "rules": [
+      "Teams will receive an initial clue and must solve a series of technical puzzles to find subsequent clues.",
+      "Clues are spread across the college campus; teams must not damage or move any clue markers.",
+      "Mobile phones may be used for calculations only — browsing, calling, or messaging is prohibited.",
+      "Each team gets one lifeline: a 60-second hint from the organizer, usable only once.",
+      "The team that reaches the final location first with all correct answers wins.",
+      "Running inside the college building is not permitted.",
+      "Any team found tampering with another team's clues will be disqualified."
+    ]
+  },
+
+  "technical__5": {
+    "tagline": "Prompt it. Generate it. Amaze them.",
+    "team": "1–2 members",
+    "duration": "45 minutes",
+    "rules": [
+      "Participants must create a short video (30–90 seconds) using any AI video generation tool.",
+      "The video must be based on the theme announced at the start of the event.",
+      "Allowed tools: Sora, Runway, Pika, Kling, or any other publicly available AI video generator.",
+      "Participants must submit both the final video and the prompts used to create it.",
+      "Videos must be original; pre-generated or pre-downloaded videos are not allowed.",
+      "Judging criteria: creativity (40%), theme relevance (30%), video quality (30%).",
+      "Explicit, offensive, or copyrighted content will lead to immediate disqualification."
+    ]
+  },
+
+  "technical__6": {
+    "tagline": "Think fast. Answer faster.",
+    "team": "Individual",
+    "duration": "30 minutes",
+    "rules": [
+      "The quiz consists of 30 multiple-choice questions covering logical reasoning, quantitative aptitude, and verbal ability.",
+      "Each correct answer awards 1 mark; there is no negative marking.",
+      "Participants must use only the provided answer sheet; rough work on any other paper is not allowed.",
+      "Use of mobile phones, calculators, or any electronic device is strictly prohibited.",
+      "Once the answer sheet is submitted, no changes can be made.",
+      "In case of a tie, a rapid-fire sudden death round will be conducted.",
+      "The quiz will begin exactly at the scheduled time; latecomers will not be given extra time."
+    ]
+  },
+
+  "nontechnical__0": {
+    "tagline": "Drop in. Be the last squad standing.",
+    "team": "Squad of 4",
+    "duration": "Best of 3 matches",
+    "rules": [
+      "Each squad must consist of exactly 4 players registered under a single team name.",
+      "Players must use their own mobile devices; emulators are strictly not allowed.",
+      "The match mode will be Classic Squad on a map decided by the organizers.",
+      "Cheating, hacking, or use of mods will result in permanent disqualification of the entire squad.",
+      "All players must be present at the venue at least 15 minutes before match time.",
+      "Points are calculated based on kills and final placement using the official BGMI tournament scoring system.",
+      "The organizer's decision regarding any dispute is final."
+    ]
+  },
+
+  "nontechnical__1": {
+    "tagline": "Every move matters. Outthink your opponent.",
+    "team": "Individual",
+    "duration": "10 min per player (Rapid)",
+    "rules": [
+      "The tournament follows standard FIDE chess rules.",
+      "Time control is Rapid: 10 minutes per player with no increment.",
+      "A player who runs out of time loses the game, regardless of board position.",
+      "Touching a piece obligates the player to move it if a legal move exists (touch-move rule).",
+      "Mobile phones must be switched off or kept face-down during the match.",
+      "Matches are played in a Swiss-system format; the top players advance to knockout rounds.",
+      "Disputes must be raised immediately and will be settled by the designated arbiter."
+    ]
+  },
+
+  "nontechnical__2": {
+    "tagline": "Your face is the canvas.",
+    "team": "Pairs (1 artist + 1 model)",
+    "duration": "45 minutes",
+    "rules": [
+      "Each pair consists of one artist and one model; both must be registered participants.",
+      "Only face-safe, water-based, non-toxic paints are allowed. Bring your own supplies.",
+      "The design theme will be revealed 5 minutes before the event starts.",
+      "Participants must stop painting immediately when time is called.",
+      "Glitter, gems, and accessories may be used as additions but must be safe for skin.",
+      "Judging criteria: creativity (40%), theme relevance (35%), neatness (25%).",
+      "Pre-drawn stencils or pre-painted models are not allowed."
+    ]
+  },
+
+  "nontechnical__3": {
+    "tagline": "Pure strength. No excuses.",
+    "team": "Individual",
+    "duration": "Knockout rounds",
+    "rules": [
+      "Competition is conducted in a single-elimination knockout format.",
+      "Participants are categorized by gender; mixed-gender matches are at the participant's discretion.",
+      "Both players must grip the handle with the elbow on the pad; the referee sets the starting position.",
+      "The match begins only after the referee gives the 'Go' signal.",
+      "A point is won when the opponent's hand is pinned to the pad. Best of 3 points wins the match.",
+      "Lifting the elbow off the pad, slipping the grip, or using the shoulder illegally results in a foul.",
+      "Two fouls in a match result in a forfeit of that match."
+    ]
+  },
+
+  "nontechnical__4": {
+    "tagline": "Recreate the pixel. Spot the image.",
+    "team": "1–2 members",
+    "duration": "30 minutes",
+    "rules": [
+      "Teams will be shown a pixelated or partially revealed image and must identify or recreate it.",
+      "There are multiple rounds: identification round and a recreation round on grid paper.",
+      "Internet access, mobile phones, and reference materials are not allowed.",
+      "Teams must write their answers clearly on the provided answer sheet.",
+      "Judging in the recreation round is based on accuracy and completeness.",
+      "Teams have a maximum of 3 skip attempts across all rounds combined.",
+      "The team with the highest cumulative score across all rounds wins."
+    ]
+  },
+
+  "nontechnical__5": {
+    "tagline": "A pencil, a blank page, your imagination.",
+    "team": "Individual",
+    "duration": "60 minutes",
+    "rules": [
+      "The topic or subject for sketching will be announced at the start of the event.",
+      "Only pencils, charcoal, and erasers are allowed. Pens, markers, or colours are not permitted.",
+      "Participants must bring their own art supplies; A3 sketch paper will be provided.",
+      "Tracing, stenciling, or use of reference images is not allowed.",
+      "Participants must stop drawing immediately when time is called by the invigilator.",
+      "Judging criteria: creativity (35%), technique (30%), theme relevance (20%), composition (15%).",
+      "Sketches must remain anonymous during judging; do not write your name on the front of the sheet."
+    ]
+  }
+}
