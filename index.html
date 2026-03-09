@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>EMINENCE 2K26</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Starfield canvas (behind everything) -->
+  <canvas id="stars"></canvas>
+
+  <!-- Floating particles -->
+  <div class="particles-wrap" id="particlesWrap"></div>
+
+  <!-- Custom cursor (desktop only, hidden via CSS on touch) -->
+  <div class="cursor"      id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Nav dots — populated by app.js based on category count -->
+  <nav class="nav-dots" id="navDots" aria-hidden="true"></nav>
+
+  <!--
+    ╔══════════════════════════════════════════╗
+    ║  All content is injected here by app.js  ║
+    ║  which reads events.json at page load.   ║
+    ╚══════════════════════════════════════════╝
+  -->
+  <main id="app">
+    <p class="loading-msg">Loading events…</p>
+  </main>
+
+  <!-- App script -->
+  <script src="./scriptwithadmin.js"></script>
+</body>
+</html>

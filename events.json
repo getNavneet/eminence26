@@ -1,0 +1,46 @@
+{
+  "fest": {
+    "name": "EMINENCE 2K26",
+    "department": "Department of Information Technology",
+    "tagline": "Annual Technical & Cultural Fest",
+    "date": "25th March 2026",
+    "countdown_date": "2026-03-25T09:00:00",
+    "venue": "Wilson Block 5th & 6th Floor",
+    "poster": "poster.jpg",
+    "contacts": [
+      { "name": "Kavya", "phone": "6350598567" },
+      { "name": "Vikas", "phone": "8219068360" }
+    ]
+  },
+  "categories": [
+    {
+      "id": "technical",
+      "label": "Technical Events",
+      "emoji": "⚡",
+      "theme": "tech",
+      "events": [
+        { "name": "Debug-A-Thon",           "emoji": "🐛", "link": "https://docs.google.com/forms/d/e/1FAIpQLSdWWpafOiDRTOXM_2AHUirU_wG_xX_6PcW7WCKP0Pw5uPcyEQ/viewform" },
+        { "name": "Web-Art",                 "emoji": "🌐", "link": "https://docs.google.com/forms/d/e/1FAIpQLSfM2VivFvmCbwvtoojKx4jL3aJHNh_GFU59twaWXIfIycf4XA/viewform?usp=publish-editor&pli=1&authuser=0" },
+        { "name": "Mini Shark Tank",         "emoji": "🦈", "link": "https://docs.google.com/forms/d/e/1FAIpQLSc1Kc8yy3b1RF_QtM1-DYMVKCKCuN5Z6gI7rPhOc7v3NgFSfg/viewform?usp=send_form" },
+        { "name": "Project Display",         "emoji": "💡", "link": "https://docs.google.com/forms/d/e/1FAIpQLScJ6tpQlvEztLkFlTB8foBqqKvUDB7IfVP6IQsXzGaC7bbrGA/viewform" },
+        { "name": "Technical Treasure Hunt", "emoji": "🗺️", "link":"https://docs.google.com/forms/d/e/1FAIpQLSdpn9NY0c2NG50FmN3CGMD37ogR9X9BtHK7M_PBmK8rzruRqw/viewform?usp=send_form" },
+        { "name": "AI Video Generation",     "emoji": "🤖", "link": "https://docs.google.com/forms/d/e/1FAIpQLSemzouuTP-bMkt9U6gBO0bW2_Eno3fkltUuJJk6rs4bQ2ZyFw/viewform?usp=publish-editor" },
+        { "name": "Aptitude Quiz",           "emoji": "🧠", "link": "https://docs.google.com/forms/d/e/1FAIpQLSepngDpEAitEWEt5X0w50oaSy3B3YODtuodWuDv3G0ILEFPHg/viewform" }
+      ]
+    },
+    {
+      "id": "nontechnical",
+      "label": "Non-Technical Events",
+      "emoji": "🎮",
+      "theme": "nontech",
+      "events": [
+        { "name": "BGMI",          "emoji": "🎮", "link": "https://docs.google.com/forms/d/e/1FAIpQLSds3P2a5Rl3aybDXw3onrZ72AOm17XC3i-Xi2QYsI-u8LVleg/viewform" },
+        { "name": "Chess",         "emoji": "♟️", "link": "https://docs.google.com/forms/d/e/1FAIpQLSc4IMekI1Z8HPtz13djUwz2NuqRwVMKtGQbFfMEJ03r-xcvjA/viewform?usp=preview" },
+        { "name": "Face Painting", "emoji": "🎨", "link": "https://forms.gle/dvUcvs1Sx5x2f5nq7" },
+        { "name": "Arm Wrestling", "emoji": "💪", "link": "https://docs.google.com/forms/d/e/1FAIpQLSeKfNZNUa9ye58UAIsFlXKew447jYa2dIvQALFL_AfXeIMJ1Q/viewform" },
+        { "name": "Pixels",        "emoji": "🖼️", "link":"https://docs.google.com/forms/d/e/1FAIpQLSdUfh1ekovMsvvUKdWRBeO5PafTNGF3x7rznYkARg_N1x_dsw/viewform"},
+        { "name": "Sketching",     "emoji": "✏️", "link": "https://docs.google.com/forms/d/e/1FAIpQLSe4349VR1j91KgRUnJ32OQzyKQ-zGx6wAARV3jO5bh_iSwZeA/viewform?usp=send_form" }
+      ]
+    }
+  ]
+}

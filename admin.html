@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — EMINENCE 2K26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon:  #00f5ff;
+      --neon2: #bf00ff;
+      --neon3: #ff006e;
+      --ok:    #00ff8c;
+      --warn:  #ffb800;
+      --dark:  #030712;
+      --surface: rgba(255,255,255,0.04);
+      --border:  rgba(0,245,255,0.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--dark);
+      color: #e0e0ff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grid overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.025) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    /* ── LOGIN SCREEN ── */
+    #loginScreen {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--dark);
+      padding: 1rem;
+    }
+    .login-card {
+      width: min(400px, 100%);
+      background: rgba(0,245,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(1.8rem, 5vw, 2.8rem);
+      display: flex; flex-direction: column; gap: 1.4rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 60px rgba(0,245,255,0.08), 0 0 120px rgba(191,0,255,0.06);
+    }
+    .login-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      background: linear-gradient(90deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-align: center;
+    }
+    .login-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.75rem, 3vw, 1rem);
+      letter-spacing: 0.3em;
+      color: rgba(224,224,255,0.4);
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .field-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
+    .field-wrap label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--neon);
+      text-transform: uppercase;
+    }
+    .field-wrap input {
+      background: rgba(0,245,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      color: #fff;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    .field-wrap input:focus {
+      border-color: rgba(0,245,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,245,255,0.08);
+    }
+    .btn-login {
+      background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(191,0,255,0.12));
+      border: 1px solid rgba(0,245,255,0.3);
+      border-radius: 10px;
+      padding: 0.75rem;
+      color: var(--neon);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .btn-login:hover {
+      background: linear-gradient(135deg, rgba(0,245,255,0.25), rgba(191,0,255,0.2));
+      border-color: var(--neon);
+      box-shadow: 0 0 20px rgba(0,245,255,0.2);
+    }
+    .login-err {
+      font-size: 0.78rem;
+      color: var(--neon3);
+      text-align: center;
+      min-height: 1.2em;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.8rem;
+      padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2.5rem);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      background: rgba(3,7,18,0.7);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-left { display: flex; flex-direction: column; gap: 0.15rem; }
+    .topbar-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.85rem, 3vw, 1.1rem);
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      background: linear-gradient(90deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .topbar-sub {
+      font-size: 0.68rem;
+      color: rgba(224,224,255,0.3);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .topbar-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(0.72rem, 2.5vw, 0.82rem);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(0,245,255,0.06));
+      border-color: rgba(0,245,255,0.3);
+      color: var(--neon);
+    }
+    .btn-primary:hover { background: rgba(0,245,255,0.2); border-color: var(--neon); box-shadow: 0 0 16px rgba(0,245,255,0.2); }
+
+    .btn-success {
+      background: linear-gradient(135deg, rgba(0,255,140,0.15), rgba(0,255,140,0.06));
+      border-color: rgba(0,255,140,0.3);
+      color: var(--ok);
+    }
+    .btn-success:hover { background: rgba(0,255,140,0.2); border-color: var(--ok); box-shadow: 0 0 16px rgba(0,255,140,0.2); }
+
+    .btn-danger {
+      background: linear-gradient(135deg, rgba(255,0,110,0.12), rgba(255,0,110,0.05));
+      border-color: rgba(255,0,110,0.25);
+      color: var(--neon3);
+    }
+    .btn-danger:hover { background: rgba(255,0,110,0.2); border-color: var(--neon3); }
+
+    .btn-warn {
+      background: linear-gradient(135deg, rgba(255,184,0,0.12), rgba(255,184,0,0.05));
+      border-color: rgba(255,184,0,0.25);
+      color: var(--warn);
+    }
+    .btn-warn:hover { background: rgba(255,184,0,0.2); border-color: var(--warn); }
+
+    /* ── MAIN CONTENT ── */
+    #adminApp {
+      position: relative; z-index: 10;
+      max-width: 860px; margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+      display: flex; flex-direction: column; gap: 2rem;
+    }
+
+    /* ── STATUS BANNER ── */
+    #statusBanner {
+      display: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      align-items: center; gap: 0.6rem;
+      animation: fadeUp 0.3s ease;
+    }
+    #statusBanner.show { display: flex; }
+    #statusBanner.ok   { background: rgba(0,255,140,0.08); border: 1px solid rgba(0,255,140,0.25); color: var(--ok); }
+    #statusBanner.err  { background: rgba(255,0,110,0.08); border: 1px solid rgba(255,0,110,0.25); color: var(--neon3); }
+    #statusBanner.info { background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.2);  color: var(--neon); }
+
+    /* ── CATEGORY BLOCK ── */
+    .cat-block {
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .cat-heading {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-icon { font-size: 1.3rem; }
+    .cat-label {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.72rem, 2.8vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .cat-label.tech    { color: var(--neon); }
+    .cat-label.nontech { color: var(--neon2); }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.68rem;
+      color: rgba(224,224,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── EVENT ROW ── */
+    .event-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.2s;
+    }
+    .event-row:focus-within { border-color: rgba(0,245,255,0.35); }
+
+    .event-row-left {
+      display: flex; align-items: center; gap: 0.6rem;
+      min-width: 0;
+    }
+    .ev-emoji { font-size: 1.3rem; flex-shrink: 0; }
+    .ev-name {
+      font-size: clamp(0.75rem, 2.5vw, 0.88rem);
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .ev-input {
+      width: 100%;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(0,245,255,0.1);
+      border-radius: 7px;
+      padding: 0.5rem 0.8rem;
+      color: rgba(224,224,255,0.85);
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(0.7rem, 2.2vw, 0.82rem);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      min-width: 0;
+    }
+    .ev-input::placeholder { color: rgba(224,224,255,0.2); }
+    .ev-input:focus {
+      border-color: rgba(0,245,255,0.4);
+      background: rgba(0,245,255,0.04);
+      color: #fff;
+    }
+    .ev-input.dirty { border-color: rgba(255,184,0,0.45); color: var(--warn); }
+    .ev-input.saved { border-color: rgba(0,255,140,0.4);  color: var(--ok); }
+
+    .ev-status {
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      width: 1.4rem;
+      text-align: center;
+    }
+
+    /* ── EXPORT BOX ── */
+    .export-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: clamp(1rem, 3vw, 1.5rem);
+      display: flex; flex-direction: column; gap: 0.8rem;
+    }
+    .export-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: rgba(224,224,255,0.4);
+      text-transform: uppercase;
+    }
+    .export-body {
+      display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center;
+    }
+    .export-note {
+      font-size: 0.75rem;
+      color: rgba(224,224,255,0.3);
+      line-height: 1.5;
+      flex: 1; min-width: 180px;
+    }
+    .export-note strong { color: rgba(224,224,255,0.55); }
+
+    /* ── FOOTER NOTE ── */
+    .admin-footer {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(224,224,255,0.18);
+      letter-spacing: 0.12em;
+      padding-bottom: 2rem;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 520px) {
+      .event-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
+      .event-row-left { grid-column: 1; }
+      .ev-input       { grid-column: 1; }
+      .ev-status      { grid-column: 2; grid-row: 1 / 3; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">EMINENCE 2K26</div>
+    <div class="login-title">🔒 Admin Panel</div>
+    <div class="field-wrap">
+      <label for="pwInput">Password</label>
+      <input type="password" id="pwInput" placeholder="Enter admin password"
+             autocomplete="current-password" onkeydown="if(event.key==='Enter') tryLogin()">
+    </div>
+    <button class="btn-login" onclick="tryLogin()">ENTER ADMIN</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ══ ADMIN APP (hidden until login) ══ -->
+<div id="adminApp" style="display:none">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">EMINENCE 2K26</div>
+      <div class="topbar-sub">Admin Panel · Event Links</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-warn"    onclick="resetAll()">↺ Reset All</button>
+      <button class="btn btn-success" onclick="saveAll()">✔ Save All</button>
+      <button class="btn btn-danger"  onclick="logout()">⏏ Logout</button>
+    </div>
+  </div>
+
+  <!-- Status banner -->
+  <div id="statusBanner"></div>
+
+  <!-- Event link rows injected here -->
+  <div id="eventForms"></div>
+
+  <!-- Export / instructions -->
+  <div class="export-section">
+    <div class="export-title">📋 How it works</div>
+    <div class="export-body">
+      <div class="export-note">
+        Links are saved in <strong>browser localStorage</strong> on this device.<br>
+        The main site reads localStorage first — changes appear instantly on reload.<br>
+        To share links across devices, use <strong>Export JSON</strong> and replace your <strong>events.json</strong> file.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">
+        <button class="btn btn-primary" onclick="exportJSON()">⬇ Export events.json</button>
+        <a class="btn btn-primary" href="index.html" target="_blank" style="text-decoration:none">↗ Preview Site</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-footer">EMINENCE 2K26 · ADMIN · DO NOT SHARE THIS PAGE</div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   CONFIG — change password here
+════════════════════════════════ */
+const ADMIN_PASSWORD = 'navneet123';   // ← change this
+const LS_KEY         = 'eminence_links'; // localStorage key (must match app.js)
+
+/* ════════════════════════════════
+   LOGIN
+════════════════════════════════ */
+function tryLogin() {
+  const val = document.getElementById('pwInput').value.trim();
+  if (val === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display    = 'flex';
+    document.getElementById('adminApp').style.flexDirection = 'column';
+    initAdmin();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.textContent = '✖ Incorrect password';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+    setTimeout(() => { err.textContent = ''; }, 2500);
+  }
+}
+
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display    = 'none';
+  document.getElementById('pwInput').value = '';
+}
+
+/* ════════════════════════════════
+   INIT — load events.json then
+   overlay any saved localStorage
+════════════════════════════════ */
+let eventsData = null; // full parsed events.json
+
+function initAdmin() {
+  fetch('events.json')
+    .then(r => { if (!r.ok) throw new Error('Cannot load events.json'); return r.json(); })
+    .then(data => {
+      eventsData = data;
+      renderForms(data);
+    })
+    .catch(err => showStatus('err', '⚠ ' + err.message));
+}
+
+/* ════════════════════════════════
+   RENDER FORM ROWS
+════════════════════════════════ */
+function renderForms(data) {
+  const saved   = getSaved();   // { "catId__eventIndex": "https://..." }
+  const wrap    = document.getElementById('eventForms');
+  wrap.innerHTML = '';
+
+  data.categories.forEach(cat => {
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    block.innerHTML = `
+      <div class="cat-heading">
+        <span class="cat-icon">${cat.emoji}</span>
+        <span class="cat-label ${cat.theme}">${cat.label}</span>
+        <span class="cat-count">${cat.events.length} events</span>
+      </div>
+    `;
+
+    cat.events.forEach((ev, i) => {
+      const key        = `${cat.id}__${i}`;
+      const savedLink  = saved[key] ?? '';
+      const activeLink = savedLink || ev.link;
+      const hasOverride = !!savedLink;
+
+      const row = document.createElement('div');
+      row.className = 'event-row';
+      row.innerHTML = `
+        <div class="event-row-left">
+          <span class="ev-emoji">${ev.emoji}</span>
+          <span class="ev-name">${ev.name}</span>
+        </div>
+        <input
+          class="ev-input ${hasOverride ? 'saved' : ''}"
+          type="url"
+          id="inp-${key}"
+          data-key="${key}"
+          data-original="${ev.link}"
+          placeholder="${ev.link}"
+          value="${activeLink}"
+          oninput="markDirty(this)"
+        >
+        <span class="ev-status" id="st-${key}">${hasOverride ? '✅' : '⬜'}</span>
+      `;
+      block.appendChild(row);
+    });
+
+    wrap.appendChild(block);
+  });
+}
+
+/* ════════════════════════════════
+   DIRTY TRACKING
+════════════════════════════════ */
+function markDirty(input) {
+  input.classList.remove('saved');
+  input.classList.add('dirty');
+  document.getElementById('st-' + input.dataset.key).textContent = '✏️';
+}
+
+/* ════════════════════════════════
+   SAVE ALL
+════════════════════════════════ */
+function saveAll() {
+  const inputs  = document.querySelectorAll('.ev-input');
+  const payload = getSaved(); // keep existing saved values as base
+
+  let changed = 0;
+  inputs.forEach(inp => {
+    const val = inp.value.trim();
+    if (val && val !== inp.dataset.original) {
+      payload[inp.dataset.key] = val;
+      inp.classList.remove('dirty');
+      inp.classList.add('saved');
+      document.getElementById('st-' + inp.dataset.key).textContent = '✅';
+      changed++;
+    } else if (!val || val === inp.dataset.original) {
+      // If cleared back to original, remove override
+      delete payload[inp.dataset.key];
+      inp.value = inp.dataset.original;
+      inp.classList.remove('dirty', 'saved');
+      document.getElementById('st-' + inp.dataset.key).textContent = '⬜';
+    }
+  });
+
+  localStorage.setItem(LS_KEY, JSON.stringify(payload));
+  showStatus('ok', `✔ Saved ${changed} link override${changed !== 1 ? 's' : ''}. Reload the main site to see changes.`);
+}
+
+/* ════════════════════════════════
+   RESET ALL (clear overrides)
+════════════════════════════════ */
+function resetAll() {
+  if (!confirm('Clear all saved link overrides and revert to events.json defaults?')) return;
+  localStorage.removeItem(LS_KEY);
+  renderForms(eventsData);
+  showStatus('info', 'ℹ All overrides cleared. Events now use links from events.json.');
+}
+
+/* ════════════════════════════════
+   EXPORT — download updated events.json
+════════════════════════════════ */
+function exportJSON() {
+  if (!eventsData) return;
+
+  const saved = getSaved();
+  // Deep-clone and apply overrides
+  const out = JSON.parse(JSON.stringify(eventsData));
+  out.categories.forEach(cat => {
+    cat.events.forEach((ev, i) => {
+      const key = `${cat.id}__${i}`;
+      if (saved[key]) ev.link = saved[key];
+    });
+  });
+
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'events.json'; a.click();
+  URL.revokeObjectURL(url);
+  showStatus('ok', '⬇ events.json downloaded — replace the file on your server to make links permanent.');
+}
+
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function showStatus(type, msg) {
+  const el = document.getElementById('statusBanner');
+  el.textContent = msg;
+  el.className   = `show ${type}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = ''; }, 5000);
+}
+</script>
+</body>
+</html>
