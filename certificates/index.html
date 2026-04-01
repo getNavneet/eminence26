@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Portal — EMINENCE 2K26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --neon:  #00f5ff;
+      --neon2: #bf00ff;
+      --gold:  #c9a84c;
+      --dark:  #030712;
+      --card:  rgba(255,255,255,0.04);
+      --border: rgba(0,245,255,0.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--dark);
+      color: #e0e0ff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grid overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.025) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem);
+      display: flex; flex-direction: column; gap: 2.5rem;
+    }
+
+    /* ── HEADER ── */
+    .page-header { text-align: center; }
+    .page-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      font-weight: 900; letter-spacing: 0.3em;
+      background: linear-gradient(90deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 600; letter-spacing: 0.04em;
+      color: #fff;
+      filter: drop-shadow(0 0 20px rgba(201,168,76,0.3));
+    }
+    .page-sub {
+      margin-top: 0.5rem;
+      font-size: clamp(0.72rem, 2vw, 0.85rem);
+      color: rgba(224,224,255,0.38); letter-spacing: 0.12em;
+    }
+
+    /* ── SEARCH BOX ── */
+    .search-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(1.4rem, 4vw, 2rem);
+      display: flex; flex-direction: column; gap: 1.1rem;
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .search-label {
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--neon); font-weight: 600;
+    }
+    .search-row {
+      display: flex; gap: 0.7rem; flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1; min-width: 0;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(0,245,255,0.2);
+      border-radius: 10px;
+      padding: 0.75rem 1.1rem;
+      color: #fff;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input::placeholder { color: rgba(224,224,255,0.2); font-style: italic; }
+    .search-input:focus {
+      border-color: rgba(0,245,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,245,255,0.07);
+    }
+    .btn-search {
+      padding: 0.75rem 1.6rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0,245,255,0.3);
+      background: linear-gradient(135deg, rgba(0,245,255,0.12), rgba(0,245,255,0.04));
+      color: var(--neon);
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-weight: 700; letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-search:hover {
+      background: rgba(0,245,255,0.2);
+      border-color: var(--neon);
+      box-shadow: 0 0 18px rgba(0,245,255,0.2);
+    }
+
+    /* suggestions */
+    .suggestions {
+      display: flex; flex-wrap: wrap; gap: 0.45rem;
+      min-height: 0;
+    }
+    .sug-chip {
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+      border: 1px solid rgba(0,245,255,0.18);
+      background: rgba(0,245,255,0.05);
+      color: rgba(224,224,255,0.65);
+      font-size: clamp(0.68rem, 1.8vw, 0.76rem);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .sug-chip:hover { background: rgba(0,245,255,0.14); border-color: var(--neon); color: #fff; }
+
+    /* status messages */
+    .status-msg {
+      font-size: clamp(0.72rem, 2vw, 0.82rem);
+      min-height: 1.2em; letter-spacing: 0.05em;
+    }
+    .status-msg.ok  { color: #00ff8c; }
+    .status-msg.err { color: #ff4d7a; }
+
+    /* ── CERTIFICATE PREVIEW ── */
+    .preview-section {
+      display: none;
+      flex-direction: column; gap: 1.2rem;
+      animation: fadeUp 0.5s ease forwards;
+    }
+    .preview-section.visible { display: flex; }
+
+    .preview-label {
+      font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(224,224,255,0.3); font-weight: 600;
+      text-align: center;
+    }
+
+    .canvas-wrap {
+      width: 100%;
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 0 50px rgba(201,168,76,0.18), 0 0 100px rgba(0,0,0,0.5);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    #certCanvas { display: block; width: 100%; height: auto; }
+
+    .btn-download {
+      align-self: center;
+      padding: 0.85rem 2.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.06));
+      color: var(--gold);
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.68rem, 2.2vw, 0.82rem);
+      font-weight: 700; letter-spacing: 0.22em;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+    .btn-download:hover {
+      background: rgba(201,168,76,0.28);
+      border-color: var(--gold);
+      box-shadow: 0 0 28px rgba(201,168,76,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ── INSTRUCTIONS ── */
+    .instructions {
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 12px;
+      padding: clamp(1rem, 3vw, 1.4rem) clamp(1rem, 3vw, 1.5rem);
+    }
+    .instr-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.7rem;
+    }
+    .instr-list {
+      list-style: none; display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .instr-list li {
+      display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.3rem;
+      font-size: clamp(0.72rem, 2vw, 0.82rem);
+      color: rgba(224,224,255,0.5); line-height: 1.55;
+    }
+    .instr-list li::before { content: '›'; color: var(--gold); font-weight: 700; }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      text-align: center;
+      font-size: 0.68rem; color: rgba(255,255,255,0.15); letter-spacing: 0.12em;
+      padding-bottom: 1rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-logo">EMINENCE 2K26</div>
+    <h1 class="page-title">Certificate Portal</h1>
+    <p class="page-sub">Department of Information Technology &nbsp;·&nbsp; 25th March 2026</p>
+  </div>
+
+  <!-- Search Card -->
+  <div class="search-card">
+    <div class="search-label">Enter Participant Name</div>
+    <div class="search-row">
+      <input
+        type="text"
+        class="search-input"
+        id="nameInput"
+        placeholder="e.g. Navneet Kumar"
+        autocomplete="off"
+        oninput="onInput()"
+        onkeydown="if(event.key==='Enter') searchName()"
+      >
+      <button class="btn-search" onclick="searchName()">SEARCH</button>
+    </div>
+    <!-- Live suggestions -->
+    <div class="suggestions" id="suggestions"></div>
+    <!-- Status -->
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <!-- Certificate Preview -->
+  <div class="preview-section" id="previewSection">
+    <div class="preview-label">Certificate Preview — Click Download to save</div>
+    <div class="canvas-wrap">
+      <canvas id="certCanvas"></canvas>
+    </div>
+    <button class="btn-download" id="btnDownload" onclick="downloadCert()">
+      ⬇ &nbsp;Download Certificate
+    </button>
+  </div>
+
+  <!-- Instructions -->
+<div
+  style="
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 12px;
+    padding: 1.2rem 1.3rem;
+  "
+>
+  <div
+    style="
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #C9A84C;
+      margin-bottom: 0.7rem;
+    "
+  >
+    📋 How to use
+  </div>
+
+  <ul
+    style="
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 0;
+      margin: 0;
+    "
+  >
+    <li
+      style="
+        display: grid;
+        grid-template-columns: 1.4rem 1fr;
+        gap: 0.3rem;
+        font-size: 0.8rem;
+        color: rgba(224,224,255,0.5);
+        line-height: 1.55;
+      "
+    >
+      <span style="color:#C9A84C; font-weight:700;">›</span>
+      <span>Type the participant's name in the search box — suggestions appear as you type.</span>
+    </li>
+
+    <li
+      style="
+        display: grid;
+        grid-template-columns: 1.4rem 1fr;
+        gap: 0.3rem;
+        font-size: 0.8rem;
+        color: rgba(224,224,255,0.5);
+        line-height: 1.55;
+      "
+    >
+      <span style="color:#C9A84C; font-weight:700;">›</span>
+      <span>
+        Click <strong style="color:#C9A84C;">Download Certificate</strong> to save it as a PNG image.
+      </span>
+    </li>
+  </ul>
+</div>
+<a
+  href="https://wa.me/7307159865?text=Hi%20I%20am%20facing%20an%20issue%20with%20my%20certificate"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    text-decoration: none;
+  "
+>
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      font-weight: 600;
+    "
+  >
+    <svg
+      style="width: 24px; height: 24px;"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 2C6.486 2 2 6.262 2 11.532c0 2.793 1.217 5.364 3.237 7.143L4 22l3.511-1.84c1.354.376 2.79.576 4.489.576 5.514 0 10-4.262 10-9.532S17.514 2 12 2zm5.52 13.55c-.233.648-1.347 1.245-1.851 1.318-.47.067-1.063.095-1.713-.105-.394-.12-.899-.293-1.55-.573-2.726-1.177-4.507-3.946-4.645-4.12-.138-.174-1.107-1.47-1.107-2.803 0-1.332.698-1.988.947-2.26.25-.272.544-.34.726-.34.181 0 .363.002.522.01.168.008.39-.064.61.465.233.573.791 1.988.86 2.132.069.144.115.312.023.506-.092.194-.138.312-.273.48-.138.168-.29.376-.413.506-.138.144-.28.3-.12.58.16.28.71 1.162 1.524 1.882 1.047.935 1.93 1.226 2.21 1.362.28.136.443.115.607-.07.165-.186.698-.812.885-1.09.186-.28.372-.233.63-.14.258.093 1.63.768 1.91.908.28.14.465.21.535.326.07.115.07.673-.163 1.32z"/>
+    </svg>
+
+    <span style="display: inline;">WhatsApp Support</span>
+  </div>
+</a>
+
+  <div class="page-footer">EMINENCE 2K26 · DEPARTMENT OF INFORMATION TECHNOLOGY · CGC LANDRAN</div>
+</div>
+
+<script>
+
+const PARTICIPANTS = [  "Shahnawaj Hussain",
+  "Ajay Rana",
+  "Sikindra Kumar",
+  "Jasneek Saluja",
+  "Garv Puri",
+  "Anish Anand",
+  "Sanyam",
+  "Kartik Singh",
+  "Sanchit Mehra",
+  "Aayu Sharma",
+  "Harsimar Kaur",
+  "Suraj Kumar",
+  "Sudhanshu Kumar",
+  "Tanish Verma",
+  "Vishal",
+  "Harshit Raj",
+  "Khushi",
+  "Pranav Chandan",
+  "Pranav Khajuria",
+  "Kushagra Maheshwari",
+  "Abhay Kumar Yadav",
+  "Akshat Shukla",
+  "Ansh Singla",
+  "Geetansh Sahni",
+  "Madhur Saini",
+  "Sushant Sangwan",
+  "Swastik Gautam",
+  "Naman goyal",
+  "Tauqeer Khan",
+  "Dabloo Kumar",
+  "Harshil jain",
+  "Ananya Sethi",
+  "Bhavneesh",
+  "Chahatesh",
+  "Arshia Sood",
+  "Ayush Kumar Singh",
+  "Aashish Mittal",
+  "Agnik De",
+  "Rohan Singh",
+  "Peeyush Sagar",
+  "Ansh Gandhi",
+  "Mishty Sharma",
+  "Diksha",
+  "Anmol",
+  "Aman Pannu",
+  "Nandani Kumari",
+  "Luvneet Singh",
+  "Parmjit Singh",
+  "Kawalpreet kaur",
+  "Siddharth Gupta",
+  "Shiv partap",
+  "Ranvir Singh",
+  "Rishabh Chauhan",
+  "Pulkit",
+  "Mohammad Nasir",
+  "Ankit Sharma",
+  "Kushal Kansal",
+  "Harnoor Singh",
+  "Lakshita",
+  "Sumit Gupta",
+  "Vaibhav Sharma",
+  "Sahil Tiwari",
+  "Aditya Passi",
+  "Sahaj",
+  "Kirti gautam",
+  "Anirudh Sehgal",
+  "Utkarsh Tripathi",
+  "Hemant Kumar",
+  "Aman Kumar",
+  "Jagdish",
+  "Palak Sharma",
+  "Payal Sharma",
+  "Siyona",
+  "Puja kumari",
+  "Saloni Rana",
+  "Anshpreet singh",
+  "Hariom Dwivedi",
+  "Rahul Raj",
+  "Siddhant Jindal",
+  "Devesh Kumar",
+  "Sunny Kumar",
+  "Satyam",
+  "Harshit Jaguri",
+  "Lakshay",
+  "Kritik Ayush bahri",
+  "Pawan kumar",
+  "Shalini Kumari",
+  "Kalyan Modak",
+  "Jashanpreet Singh",
+  "Harshit Sharma",
+  "Adarsh kumar",
+  "Neha kumari",
+  "Simran",
+  "Aanya Bisht",
+  "Kartik Sharma",
+  "Sahil Chaudhary",
+  "Prince Kumar",
+  "Ipsa",
+  "Om Handa",
+  "Khushi Mehta",
+  "Jashanpreet Kaur",
+  "Jashan Mahajan",
+  "Shivam Sawhney",
+  "Tejasav",
+  "Samarth",
+  "Rahul chand",
+  "Harpreet kaur",
+  "Tarun Kumar Saini",
+  "Shikha",
+  "Manveer",
+  "Urvashi",
+  "Kshitij jain",
+  "Sachin kumar",
+  "Manav Singh",
+  "Hiteksh Garg",
+  "Shubham Kumar",
+  "Shashwat",
+  "Kanhaiya prasad",
+  "Kowshish",
+  "Jasmeet singh",
+  "Meghnath kumar",
+  "Sonali shree",
+  "Himanshu Shekhar",
+  "Lovepreet Singh",
+  "Gaurav kumar",
+  "Manish singh",
+  "Rahul kumar",
+  "Arshpreet Kaur",
+  "Arshad Khan",
+  "Harshit Singla",
+  "Simar Rajpal",
+  "Ishan singh",
+  "Eshika thakur",
+  "Pankaj",
+  "Kunal",
+  "Nimit Kumar",
+  "Jahan lamba",
+  "Simarpreet Kaur",
+  "Yashvi",
+  "Vinit",
+  "Saket kumar",
+  "Suhani chaubey",
+  "Taranjit Singh",
+  "Sneha pruthi",
+  "Tanish Dudeja",
+  "Geetansh",
+  "Aditya Raj",
+  "Raj Wardhan",
+  "Ipshita Bhardwaj",
+  "Jaideep taak",
+  "Kartik Narang",
+  "Radhika",
+  "Yuvraj Ranaut",
+  "Anshika",
+  "Ritika",
+  "Rishav Kumar",
+  "Rajan Gupta",
+  "Pawni",
+  "Tanish",
+  "Ridhi",
+  "Rikita Maiti",
+  "Kartik",
+  "Yogesh",
+  "Daksh",
+  "Divyanshu kumar",
+  "Rasesh Kumar",
+  "Ankur kumar",
+  "Nakul Bansal",
+  "Sharandeep Kaur",
+  "Tanzeel Gani Shah",
+  "Arun Kumar",
+  "Om Ahuja",
+  "Kavinder Singh",
+  "Navdeep Singh",
+  "Anurag Raj",
+  "Abhimanyu",
+  "Aryansh Chadha",
+  "Saif Ahmad Ansari",
+  "Aryan Lanjewar",
+  "Bhumika sood",
+  "Aarchie",
+  "Vanshika",
+  "Dev Parkash",
+  "Aditya Modgil",
+  "Punya",
+  "Khushboo Arora",
+  "Palak",
+  "Shubhangi",
+  "Richa Kumari",
+  "Ritika Sinha",
+  "Jitesh",
+  "Taranjot Kaur",
+  "Ankita devi",
+  "Ojas tyagi",
+  "Deepansh arora",
+  "Arvish",
+  "Neha",
+  "Syed Shifaat Bukhari",
+  "Jashn Gawri",
+  "Muskan",
+  "Hritik Dubey",
+  "Gagandeep",
+  "Harshpreet Singh",
+  "Arpit Verma",
+  "TINU ANAND KUMAR",
+  "Chetanya Somra",
+  "Agam Setia",
+  "Riya monga",
+  "Anshika Garg",
+  "Komal Kumari",
+  "Yash",
+  "Om Mittal",
+  "Akarsh",
+  "Arsh Jindal",
+  "Disha Pathak",
+  "Navdeep Dhiman",
+  "Yashi Bhardwaj",
+  "Arshpreet Singh",
+  "Preet",
+  "Sameer",
+  "Ravish Sethi",
+  "Ramanjeet Kaur",
+  "Abhay",
+  "Manveer Singh Panesar",
+  "Rajnish Kumar",
+  "Ipshita bhardwaj",
+  "Deepanshu Sharma",
+  "Paras Dhingra",
+  "Ruhani",
+  "Aastha",
+  "Ashutosh",
+  "Manish Kumar",
+  "Ketan",
+  "Pranjul Salwan",
+  "Kavish Jain",
+  "Arsha Anand",
+  "Amanpreet Kaur",
+  "Priyanka",
+  "Vrinda",
+  "Karan Tayal",
+  "Raghav Taneja",
+  "Sakshi",
+  "Vishrut",
+  "Arun kumar",
+  "Shelly Vats",
+  "Rajneet kaur",
+  "Harjot Singh",
+  "Vasu Sharma",
+  "Reshika",
+  "Arshdeep kaur",
+  "Samridhi",
+  "Mehak",
+  "Ayush Gandhi",
+  "Amit Kumar",
+  "Sarthak Sharma",
+  "Paras Bhatia",
+  "Bhavuk",
+  "Arshdeep Singh",
+  "Yash kumar",
+  "Parul",
+  "Parm Surjan",
+  "Sagar",
+  "Amit kumar",
+  "Taranpreet Singh",
+  "Prince",
+  "Akshit",
+  "Sachin Kumar",
+  "Jatin",
+  "SAMRITI",
+  "Gunjot Kaur",
+  "Ashish Gupta",
+  "Nitish Kumar",
+  "Lokesh",
+  "Piyush",
+  "Arnav Mahajan",
+  "Raghav jain",
+  "Sambhav",
+  "Meetinder kaur",
+  "Jwala Singh",
+  "Pranshu Chawla",
+  "Priyanshu Bhatt",
+  "Gursharan Singh",
+  "Prabhjot Singh",
+  "Lakshya Dhiman",
+  "Ayush",
+  "Ansharah Anjum",
+  "Harmann Sandal",
+  "Ankush",
+  "Akshat Kumar",
+  "Harsh Kumar",
+  "Ansh Monga",
+  "Tanav Bhalla",
+  "Lovish Jindal",
+  "Tanish Chalana",
+  "Mukul Kumar",
+  "Jayant Jindal",
+  "Parmeet singh",
+  "PRANAV VATS",
+  "Rohit kumar",
+  "Ayush Bhasin",
+  "Ayush Singh Rawat",
+  "Robin Rana",
+  "Abhishek",
+  "Divyang Sharma",
+  "Sparsh Pathak",
+  "Abhishek Tiwari",
+  "Dhruv Thakur",
+  "Prabhakar Jha",
+  "Atul Kumar",
+  "Jayant priya",
+  "Khushpreet singh",
+  "Divyam",
+  "Aryan Sharma",
+  "Jyotirmay Ahuja",
+  "Tanish Bhatia",
+  "Travishpal Singh Dhillon",
+  "Ayush ranjan",
+  "Ashima Pandey",
+  "Amandeep",
+  "Harsh",
+  "Shivam kashyap",
+  "Aditya Raitka",
+  "Aditya Thakur",
+  "Kartik Tayal",
+  "Jaspreet singh",
+  "Harshit kabba",
+  "Rachit oberoi",
+  "Khushpreet Sharma",
+  "sumit kumar",
+  "Amarjeet Kumar",
+  "Keshav Rana",
+  "Lavish",
+  "Sahil Thakur",
+  "Priyanshu Chowdhury",
+  "Yuvraj Kumar",
+  "Aditya",
+  "Naitik kumar",
+  "Kabir Kumar",
+  "Avleen",
+  "Chandan Pandey",
+  "Viraj Thakur",
+  "Rohit",
+  "Sandeep",
+  "Happy gupta",
+  "Harsh Nivyam",
+  "Aksh saini",
+  "Ridhima",
+  "Priyanshi",
+  "Chahat Dhamija",
+  "Ayush Kumar",
+  "Thomas cheeda",
+  "Taniya",
+  "Kashish",
+  "Mohit",
+  "Manjot Singh",
+  "Piyush sharma",
+  "Monu Raj",
+  "Raunit Ranjan",
+  "Shivani Thakur",
+  "Ravneet kaur",
+  "Sakshi Jaswani",
+  "Deepash Singh",
+  "Preeti",
+  "PRITHVI KAPILA",
+  "Nadeem Mallick",
+  "Sonia",
+  "Purushotam Kumar Jha",
+  "Ravish Rajveer",
+  "Naveen",
+  "Tanishq Chaturvedi",
+  "Mohd Nomaan Atiq",
+  "Anshika Bakshi",
+  "Priya",
+  "Pratyush",
+  "Piyuesh choudhary",
+  "Payal",
+  "Aditya Kumar Chaubey",
+  "Aman",
+  "Sanskriti Negi",
+  "Rohan yadav",
+  "Ankita Kumari",
+  "Ankita Datta",
+  "Tannu",
+  "Yugam Manocha",
+  "SHUBH AHUJA",
+  "Vishal Singla",
+  "Vinayak Verma",
+  "Tushar",
+  "Vanshika sharma",
+  "Ritik Raj Tiwari",
+  "Krish",
+  "Simranjeet kaur",
+  "Atul Sharma",
+  "Akshay",
+  "Abhay Thakur",
+  "Shresth kakkar",
+  "Pratham singh",
+  "Dhruv Bansal",
+  "Keshav Singla",
+  "Kartik Thakur",
+  "Vaishnavi singh",
+  "Anchal Kumari",
+  "Shradha Dhawan",
+  "Ayush verma",
+  "Priyanshu Gupta",
+  "Khwahish",
+  "Gourang grover",
+  "Royan Raj",
+  "Harshita",
+  "Shradha Chrungoo",
+  "Dhruv setia",
+  "Shorya dadwal",
+  "KLSH",
+  "Chhavi Jain",
+  "Raxit",
+  "Riddim",
+  "Moulik",
+  "Tejas Tomar",
+  "AYUSH GARG",
+  "Drishti",
+  "Sumit singh",
+  "Ayush Dogra",
+  "Tanmay arora",
+  "Bharat Kalia",
+  "Swati Kumari",
+  "Ayush mishra",
+  "Sanjeev verma",
+  "Prashant Kumar",
+  "Priyanshu kumar",
+  "Alisha",
+  "Saloni Kumari",
+  "Gaurav Kumar",
+  "Dev Kanwar",
+  "Ayush kumar",
+  "Siddhant ravi",
+  "Shukriti Singh",
+  "Sorabh Pal",
+  "Raju Kumar Singh",
+  "Sania",
+  "Abhijeet Kumar Singh",
+  "Gauri dhiman",
+  "Aakash kumar",
+  "Faisal Ahsan",
+  "Dhruv kumar",
+  "Mehakdeep Singh",
+  "Davinder singh",
+  "Adarsh Guleria",
+  "Chirag",
+  "Alok sagar",
+  "Aditya Katoch",
+  "Ayushi",
+  "Digvijay Thakur",
+  "Aarti",
+  "Sahil Yadav",
+  "Aksheeta",
+  "Ankur Singh",
+  "Mahin Sharda",
+  "Arpit",
+  "Ishmeet Kaur",
+  "Pardeep kaur",
+  "Kashish Goyal",
+  "Kartik Tanwar",
+  "Sambhav Jain",
+  "Neeraj kumar",
+  "Neeraj kumar Pandey",
+  "Kanak ladha",
+  "Kanika",
+  "Akshit sirohi",
+  "Manvi goyal",
+  "Radhika Bathla",
+  "Parmeet kaur",
+  "Aniket Singh Rathor",
+  "Akash Goswami",
+  "Vijay Kumar Roy",
+  "Ravish Godara",
+  "Shivam",
+  "Ritwik",
+  "Ram",
+  "Vansh baldiya",
+  "Himanshu Joshi",
+  "Lakshika",
+  "Kaushik Raj",
+  "Ajay",
+  "Vansh",
+  "Akshdeep Singh",
+  "Jaideep",
+  "Garvit Thakur",
+  "Rishabh",
+  "Yash mittal",
+  "Mohd Aadil Wani",
+  "Simarjot",
+  "Rakesh Kumar",
+  "Rupesh Kumar",
+  "Karan",
+  "Ritesh Kumar",
+  "mahak",
+  "Aashima",
+  "Sahil kunwar",
+  "Kamal kumar",
+  "Himanshu kumar",
+  "Krish kumar",
+  "Mithilesh Kumar",
+  "Rudraksh mani sharma",
+  "Arpit sandhu",
+  "Inderpal Singh",
+  "Divyank",
+  "Udit Yadav",
+  "Satvik Arora",
+  "Chetan",
+  "Krish Chhabra",
+  "Sumant Dhar",
+  "Tejesh kumar",
+  "Abhijit Singh Siddhu",
+  "Tanish Kumar",
+  "Anshu Yadav",
+  "Rahul Kumar Kaushal",
+  "Satyam parashar",
+  "Mayank Kumar",
+  "Anubhav Handa",
+  "Vedeesh Khowal",
+  "SAHIL",
+  "Muskan Kumari",
+  "Krrish Gurung",
+  "Ravi",
+  "Kushal Ahlawat",
+  "Shubham",
+  "Harsh Sharma",
+  "Shubham kumar",
+  "Parth",
+  "Varun",
+  "Muskaan Malik",
+  "Aditya Kumar Rai",
+  "Sachin",
+  "Shourya Thakur",
+  "Amanpreet singh",
+  "Yash Mohan",
+  "Diwakar Singh Rawat",
+  "Deepak Sharma",
+  "Saksham",
+  "Sourav",
+  "Udit",
+  "Amisha Bharti",
+  "Aditya Chaudhary",
+  "Khushjeet Singh",
+  "Anubhav",
+  "Aniket Sharma",
+  "Mayank bhardwaj",
+  "Jatin dahiya",
+  "Arnav",
+  "Aditya Singh",
+  "Abhinav Gupta",
+  "Lakshit",
+  "Anand Bhardwaj",
+  "Akash Paul",
+  "Akash Kumar Yadav",
+  "Bhavit",
+  "Mohit Bansal",
+  "Uday Sehgal",
+  "Shashank Nautiyal",
+  "Rishav",
+  "ABHISHEK",
+  "DIPANSHU",
+  "Ujjawalkamboj",
+  "Kheshant",
+  "Jetain",
+  "Ramneet Singh Bhatia",
+  "Rishabh Jain",
+  "Tusar Dod",
+  "Vicky Mandal",
+  "Moh Vasim",
+  "Priyanshu Kumar Mishra",
+  "Suflam sharma",
+  "Daksh Chandan",
+  "Anish Sharma",
+  "Himanshu Katoch",
+  "Lokeshwar",
+  "Ajaib Singh",
+  "Parasveer Singh",
+  "Ritish Mehta",
+  "Manjot singh",
+  "Dhairya anand",
+  "Akshit Sharma",
+  "PARIDHI",
+  "Sujal",
+  "Ankush Kumar",
+  "Nitin",
+  "Sangam Yadav",
+  "Laksh gandhi",
+  "Vansh Rana",
+  "Nakshtra",
+  "Parth sood",
+  "Harmandeep singh",
+  "Abhay Vashisht",
+  "Priyanshu",
+  "Kanav",
+  "Yashasvi",
+  "Ravish raj",
+  "Davinder",
+  "Ojas Sharma",
+  "Suryansh thakur",
+  "Anmol Saini",
+  "Sachandeep Singh",
+  "Bhavay Vij",
+  "Rhythm",
+  "Bhism Dev",
+  "Kunal rawat",
+  "Lalit kumar",
+  "Nishant",
+  "Anurag",
+  "Chiranshu sharma",
+  "Devansh",
+  "Aryan",
+  "Ashu",
+  "Vanshaj Rathi",
+  "Jasnoor singh",
+  "Rakshit Bhardwaj",
+  "Taranjot Singh",
+  "Anmolmeet Singh",
+  "Ankit sharma",
+  "Satyam Tiwari",
+  "Lalit kishor",
+  "Danish Datta",
+  "Vaibhav Pratap Singh",
+  "Utkarsh",
+  "Ujjawal",
+  "Shruti Kumari",
+  "Sehejnit",
+  "Vansham",
+  "Harsh Thakur",
+  "Shiv Pratap Singh Chauhan",
+  "Anish",
+  "Pranav Vashisht",
+  "Navneet barwal",
+  "Mehak Rani",
+  "Abhinav Agarwal",
+  "Khushal thakur",
+  "Tushar Singla",
+  "Abhijeet rana",
+  "Pranjal",
+  "Aniket",
+  "Gaurav",
+  "Akash Sharma",
+  "Sahil Saroya",
+  "Ramandeep Singh",
+  "Lallit kishor",
+  "Rujul",
+  "Parshant Kumar",
+  "Madhvendra",
+  "Gourav Thakur",
+  "Saras",
+  "Raghav gupta",
+  "Ada",
+  "Kunal Sehgal",
+  "Aman singh",
+  "Anjay Kumar Singh",
+  "krishna",
+  "Akshya kumar",
+  "Japneet",
+  "Akash Singh",
+  "Deepanshu",
+  "Naman pandey",
+  "Dakshit Sharma",
+  "Pravesh",
+  "Ashmit sharma",
+  "Aniket Thakur",
+  "Harpreet Singh",
+  "Vivek",
+  "Jatin gupta",
+  "Pihu",
+  "Ritik Kumar",
+  "Sujal singh mahar",
+  "Vedansh Chauhan",
+  "Nandkishor",
+  "Devanshu kumar",
+  "Arshdeep singh cheema",
+  "Abhay Sharma",
+  "Harshit Tomar",
+  "Vansh jain",
+  "Anshul",
+  "Nitish kushwaha",
+  "Prabhpreet Singh",
+  "Amanpreet Singh",
+  "Nikhil Kumar",
+  "Uday kumar",
+  "Gurdeep singh",
+  "Aditya singh",
+  "Avneet Singh",
+  "Aditya aggarwal",
+  "Vaibhav Datta",
+  "Prakash kumar",
+  "Parth bhardwaj",
+  "Jaspreet Singh",
+  "Vansh Arora",
+  "Manthan",
+  "Rohineet",
+  "Harsh Preet singh",
+  "Abhinav",
+  "Riddhima",
+  "Harsh arya",
+  "Chirag Goyal",
+  "Nitin Singh",
+  "Vivek das",
+  "Sunil kumar",
+  "Nakshatra Khanna",
+  "Harman Singh",
+  "Riahab",
+  "Saksham Aujla",
+  "Hardik Kumar",
+  "Sonali",
+  "Bhairavi",
+  "Lakshay choudhary",
+  "Kundan Kumar vidyarthi",
+  "Yuvraj sharma",
+  "Arvind rana",
+  "Anay kashyap",
+  "Himanshu Singh",
+  "Surya",
+  "Kushagra",
+  "Ayushman",
+  "Raushan thakur",
+  "Ayush Saini",
+  "Vishnu",
+  "Anoorag Singh",
+  "Ajay sharma",
+  "Piyush Pandey",
+  "Nikhil Raj",
+  "Anshpreet Singh",
+  "Mohammad Zubair",
+  "Praful",
+  "Tushar Jund",
+  "Lovesh Mehra",
+  "Kavya",
+  "Archi Mittal",
+  "Vedanshu",
+  "Mukesh",
+  "Abhishek kumar",
+  "Prabhakar",
+  "Rishav patiyal",
+  "Khushi Ghori",
+  "Adhyayan Sundeta",
+  "Rohan",
+  "Vivek Rana",
+  "Aashish Dhiman",
+  "Prabhu",
+  "Bhavesh",
+  "Gaurav Choubey",
+  "Ashish Kumar",
+  "Rizul Rana",
+  "Ridam Kukreja",
+  "Aryan  thakur",
+  "Anamika",
+  "Tanisha",
+  "Rohit Pal",
+  "Atul",
+  "Gurnam Singh",
+  "HARSHIT",
+  "Anirudh Basliyal",
+  "Aman Kumar Manjhi",
+  "lalit",
+  "Shiv samik",
+  "Submit",
+  "Nishchay Chauhan",
+  "Ankit Raj",
+  "Dev malhotra",
+  "Jashanpreet singh",
+  "Rajvansh Sharma",
+  "Dhruv Sharma",
+  "Uday",
+  "Aayush misra",
+  "Dhruv",
+  "Vinit sehgal",
+  "Nivedna",
+  "Vansaj Garg",
+  "Vaibhav",
+  "Nikhil",
+  "Aditya Kumar",
+  "Naman",
+  "Chhavi sharma",
+  "Harshul Thakur",
+  "Ankit",
+  "Prabhdeep Singh",
+  "Manmeet Singh",
+  "Yogesh Kumar",
+  "Krish pal",
+  "Kanish Bansal",
+  "Manveer singh",
+  "Vansh partap singh rana",
+  "Aman Thakur",
+  "Neeraj",
+  "Sashank",
+  "Suhani Tuli",
+  "Gourav",
+  "Jagjit",
+  "Harshvardhan Singh",
+  "Daksh sethi",
+  "Vansh S bhandari",
+  "Mohini arora",
+  "Pratiyoposh",
+  "Anush jot Singh",
+  "Arman",
+  "Prince verma",
+  "Krish pahuja",
+  "Vikrant",
+  "Ketan tyagi",
+  "Anikesh Kumar",
+  "Pankaj kalsi",
+  "Varun pandey",
+  "Vrind sharma",
+  "Krishan kharwar",
+  "Garvit  Juneja",
+  "Sehajveer Singh",
+  "Aryan Deo",
+  "Prashant",
+  "Harman",
+  "Yuvraj",
+  "Md. Shaqulain Reza",
+  "Mannat sharma",
+  "Anmol Gomla",
+  "Aditya pal",
+  "Jaskaran Singh",
+  "Sanjay Kumar",
+  "Aditya raj",
+  "Mohit Sharma",
+  "Aniket soni",
+  "Ranjan",
+  "Koustubh singh",
+  "Umesh Kumar",
+  "Jai Preet  Singh",
+  "Nikhil Singh",
+  "Angad Singh",
+  "Lakshy Dadwal",
+  "Raghav",
+  "Tanasvi",
+  "Akshit Aggarwal",
+  "Parteek",
+  "Shivang",
+  "Premsagar",
+  "Aman Ali",
+  "Tushaar",
+  "Pitambara",
+  "Ansh Verma",
+  "Sahil",
+  "Vinay",
+  "Sukhvir singh",
+  "Nitesh",
+  "Bhargav",
+  "Gurjot Singh",
+  "Ajay Sharma",
+  "Rohin",
+  "Shanu Singh Rajput",
+  "Anshul kumar",
+  "Anjali",
+  "Amit Joshi",
+  "Gobind Singh",
+  "Pankaj Sehgal",
+  "Manish Sharma",
+  "Aishwary",
+  "Kanupriya",
+  "GURSIMRAN",
+  "Anil kumar",
+  "Ashish Sharma",
+  "rishav",
+  "Gurdit Singh",
+  "Badal Singh",
+  "Akashdeep singh",
+  "Divitya Rana",
+  "Shivam Kumar",
+  "Tarun Sharma",
+  "Abhay Singh chib",
+  "Vansh kakkar",
+  "Rahul Kumar Sarathi",
+  "Raghav sharma",
+  "Sourav Mandal",
+  "Dewashish kumar sen",
+  "Kanhiaya",
+  "Anirudh",
+  "Anurag kumar",
+  "Ritesh kushwaha",
+  "Parneet Singh",
+  "Arjot Singh",
+  "Harman Atwal",
+  "Harmanpreet singh",
+  "Mohit Panwar",
+  "Anushka",
+  "Aditya Sharma",
+  "Archita",
+  "Hardik luthra",
+  "Briz",
+  "Harshal",
+  "Yashpreet singh",
+  "Kajal",
+  "Arunpreet singh",
+  "Arshdeep singh",
+  "Parveen Kumar",
+  "Krish mahajan",
+  "Ishika",
+  "Sahil kumar",
+  "Amit",
+  "Apurav Sharma",
+  "Suraj yadav",
+  "Krish verma",
+  "Devvart Gupta",
+  "Samarr",
+  "Shiwang Dadhwal",
+  "Vishal Kumar",
+  "Ansh Thakral",
+  "Gurnoor",
+  "Ankit Pandey",
+  "Sahilpreet",
+  "Dhasksh minhas",
+  "Kartik raina",
+  "Krish thakur",
+  "AKSHAT BHATI",
+  "Krish sharma",
+  "ARRYAN",
+  "Nandini Kumari",
+  "Sawan Preet",
+  "Paramjot singh",
+  "Hridyanshu Sharma",
+  "Rajan saini",
+  "Rajat thakur",
+  "Robin kumar",
+  "Vaibhav Yadav",
+  "Rohit Dhatwalia",
+  "Sumit Kumar",
+  "Rahul Kumar",
+  "Kittu Bansal",
+  "Yash Garg",
+  "Ujjwal khanna",
+  "Sushant panchal",
+  "Hiten Ahuja",
+  "Anshuman",
+  "nitin",
+  "Yug",
+  "Pushkar",
+  "Aditya kumar",
+  "Shivam Rana",
+  "Noor Bano",
+  "Piya Goyal",
+  "Pranshu Anand",
+  "Ambreen kaur",
+  "Gangesh Shrivastav",
+  "Yugansh Sharma",
+  "Utkarsh Sharma",
+  "Rhythm Goyal",
+  "Sohil Khan",
+  "Vikas Thakur",
+  "Rimjhim Sharma",
+  "Vansh Sharma",
+  "Tanya Choudhary",
+  "Manjot kaur",
+  "Manya",
+  "Wagisha Sharma",
+  "Jasmeen",
+  "Aman Koushal",
+  "yash",
+  "Armandeep Kaur",
+  "Yadwinder Singh",
+  "Kanishak Bakshi",
+  "Sumit kumar",
+  "Prashant Panwar",
+  "Uday Aggarwal",
+  "Hezal",
+  "Divya",
+  "Vansh Verma",
+  "Pratyaksha mithas",
+  "Kanan Bhatti",
+  "Neeraj yadav",
+  "Sachi Sharma",
+  "DEVANSH GUPTA",
+  "Daksh Sehgal",
+  "Harshit",
+  "Pushkar Bansal",
+  "Ravi Rupinder Singh",
+  "Gautam kakkar",
+  "Rachita Bhatia",
+  "Sagar Verma",
+  "gourav baweja",
+  "Anil rathour",
+  "Paras yadav",
+  "Sachit Aggarwal",
+  "Aakarsh chaudhary",
+  "Sachin Handa",
+  "Tanmay",
+  "Suhani Sharma",
+  "Pragya",
+  "Harisharan",
+  "Alok Verma",
+  "Puru Gulati",
+  "GAURAV",
+  "Arshdeep",
+  "Shaurya gupta",
+  "Kavey pahwa",
+  "MD Rakib Hussain",
+  "Riya chugh",
+  "Aaryan",
+  "Lovish",
+  "Ansh  Arora",
+  "Krishna Sehgal",
+  "Devansh Gupta",
+  "Himanshu",
+  "Sajal Verma",
+  "Lavish sharma",
+  "Ujwal sharma",
+  "Muskan Garg",
+  "Akhil singh Thakur",
+  "Uday Choudhary",
+  "Aniket yadav",
+  "Vishal Thakur",
+  "Dheeraj Kumar",
+  "Madhav Madaan",
+  "Arpit shrivastava",
+  "Divy Akarsh Tripathi",
+  "Mamnoon Aktar",
+  "Manik",
+  "Vivek thapa",
+  "Harjot singh",
+  "Sohan",
+  "Uttkarsh Kumar Singh",
+  "Mayank",
+  "Saquib Sohail",
+  "Parth chauhan",
+  "Pushkar Vats",
+  "Khushi Nath",
+  "Bhumi",
+  "Dolphy",
+  "Ujjwal koushal",
+  "Surya ranjan",
+  "Shivam Mahajan",
+  "Aryan Sachdeva",
+  "Nishtha kalra",
+  "Anurag singh",
+  "Ritesh",
+  "Piyush Kumar Sharma",
+  "Ruchit vardhan",
+  "Kashvi",
+  "Neeraj Kumar",
+  "Pranjal Rathour",
+  "Lavish Bhaskar",
+  "Kritika",
+  "Tanishika Manocha",
+  "Yashika garg",
+  "Sandeep Kumar",
+  "Rohan sharma",
+  "Sarthik khanna",
+  "Navya Grover",
+  "Khushi Setia",
+  "Vidit",
+  "Abhay kumar",
+  "Tisha",
+  "Tanuj",
+  "Mokshita Rana",
+  "Jayesh",
+  "Dhruv Mankotia",
+  "Lakshay Sharma",
+  "Ishita",
+  "Krishna Dwivedi",
+  "Shrinandan kumar",
+  "kushagar singh rathour",
+  "Manas",
+  "Shobhita",
+  "Vibhuti rana",
+  "Dhrub",
+  "Madhav sharma",
+  "Aryan panwar",
+  "Gokul Saikrishna",
+  "Harmanpreet Singh",
+  "AKSHIT",
+  "Priyanshu Gautam",
+  "Prajjwal Kestwal",
+  "Nikhil Negi",
+  "Mohit Kumar",
+  "Ishita Aggarwal",
+  "Priyansh",
+  "Uday Thakur",
+  "Jaismeen Kaur",
+  "Garima",
+  "Aadarsh Sharma",
+  "Nikhil jawla",
+  "Suhani Kapoor",
+  "Sunny Prakash",
+  "NIKHIL BENIWAL",
+  "Shareen",
+  "Piyush Ranjan",
+  "Nasir Husain",
+  "Shivam Jairath",
+  "Vijay sharma",
+  "Akshita",
+  "Anisha",
+  "Navjeet Kumar",
+  "Manmohan Singh",
+  "Mayuri Goyal",
+  "Sohani",
+  "Shirza Gulati",
+  "Isha Saini",
+  "Sital Kumari",
+  "Rahul",
+  "Rohit Dadhwal",
+  "Sarthak Yadav",
+  "Rohit Kumar",
+  "Sanchi",
+  "Shoaib akhtar",
+  "Ritik Sharma",
+  "Md Arif Karim",
+  "Vanshaj Bhardwaj",
+  "Shubham Raj",
+  "Shailen Sharma",
+  "Navdeep Sharma",
+  "Yashika",
+  "Reyan Alam",
+  "Dilkash Raza",
+  "Suraj kumar",
+  "Md Sayeedul Haque",
+  "Rajeev",
+  "Rishit Bhatia",
+  "Ritik",
+  "Riya Manshi",
+  "Ridhima Sharma",
+  "RAHUL KUMAR GUPTA",
+  "Paras sharma",
+  "Rasjot Kaur",
+  "Monika Kumari",
+  "Prince Chauhan",
+  "Ananya",
+  "Arpit Singh",
+  "Priyanshu sharma",
+  "Harshita Ahuja",
+  "Prabhnoor Kaur",
+  "Anshika Sharma",
+  "Vineet Salaria",
+  "Shresth",
+  "Sakshi Sharma",
+  "Jagwinder Singh",
+  "Varun shukla",
+  "Gurvinder Singh",
+  "Shweta chauhan",
+  "Jiya kumar",
+  "Nitin Dhiman",
+  "Navjot Singh",
+  "Gungun",
+  "Tannu Shree",
+  "Saumya Gogia",
+  "Krish Girdhar",
+  "Parth Rawal",
+  "Prannoy Raj"
+];
+
+/* ════════════════════════════════════════════════════════
+   CERTIFICATE LAYOUT CONFIG
+   ─────────────────────────────────────────────────────
+   These values control where the name is drawn.
+   All values are 0–1 fractions of the image dimensions,
+   so the layout stays correct regardless of image size.
+
+   nameY      → vertical position (0 = top, 1 = bottom)
+   fontSize   → fraction of image height (e.g. 0.07 = 7%)
+   fontFamily → must match a font loaded above or a system font
+*/
+const CERT_CONFIG = {
+  nameY:       0.535,   // vertical center of the name (~43.5% down)
+  fontSize:    0.058,   // name font size as fraction of image height
+  fontFamily:  'Cormorant Garamond',
+  fontStyle:   'italic 600',   // style + weight prefix for canvas font
+  color:       '#1a2a5e',      // dark navy — matches certificate text
+  align:       'center'
+};
+
+
+const CERT_IMAGE_SRC = 'certificate.png';
+
+/* ── State ── */
+let currentName  = '';
+let certImgCache = null;  // cached Image object
+
+/* ════════════════════════════════════════════════════════
+   SEARCH & SUGGESTIONS
+════════════════════════════════════════════════════════ */
+function normalise(s) {
+  return s.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function onInput() {
+  const q = document.getElementById('nameInput').value.trim();
+  const sugBox = document.getElementById('suggestions');
+  const status = document.getElementById('statusMsg');
+  status.textContent = '';
+
+  if (q.length < 2) { sugBox.innerHTML = ''; return; }
+
+  const matches = PARTICIPANTS.filter(n =>
+    normalise(n).includes(normalise(q))
+  ).slice(0, 8);
+
+//   sugBox.innerHTML = matches.map(name => `
+//     <div class="sug-chip" onclick="selectName('${name.replace(/'/g,"\\'")}')">
+//       ${name}
+//     </div>
+//   `).join('');
+}
+
+function selectName(name) {
+  document.getElementById('nameInput').value = name;
+  document.getElementById('suggestions').innerHTML = '';
+  generateCert(name);
+}
+
+function searchName() {
+  const inputEl = document.getElementById('nameInput');
+  const rawValue = inputEl.value.trim();
+  const q = normalise(rawValue);
+
+  if (!q) return;
+
+  // Only exact match
+  const found = PARTICIPANTS.find(n => normalise(n) === q);
+
+  if (found) {
+    generateCert(found);
+  } else {
+    setStatus('err', `✖ "${rawValue}" not found in the participant list.`);
+    document.getElementById('previewSection').classList.remove('visible');
+  }
+}
+
+function setStatus(type, msg) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = `status-msg ${type}`;
+}
+
+
+function generateCert(name) {
+  currentName = name;
+  setStatus('ok', `✔ Certificate found for "${name}"`);
+
+  // Load image (or use cache)
+  if (certImgCache && certImgCache.complete) {
+    drawCert(certImgCache, name);
+  } else {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload  = () => { certImgCache = img; drawCert(img, name); };
+    img.onerror = () => {
+      setStatus('err', '⚠ certificate.png not found — place it in the same folder as this file.');
+    };
+    img.src = CERT_IMAGE_SRC + '?v=' + Date.now();
+  }
+}
+
+function drawCert(img, name) {
+  const canvas = document.getElementById('certCanvas');
+  canvas.width  = img.naturalWidth  || img.width;
+  canvas.height = img.naturalHeight || img.height;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base certificate
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  // Calculate font size
+  const fs = Math.round(canvas.height * CERT_CONFIG.fontSize);
+
+  // Set font — load Google Font into canvas context
+  ctx.font      = `${CERT_CONFIG.fontStyle} ${fs}px '${CERT_CONFIG.fontFamily}', Georgia, serif`;
+  ctx.fillStyle = CERT_CONFIG.color;
+  ctx.textAlign = CERT_CONFIG.align;
+  ctx.textBaseline = 'middle';
+
+  // Add subtle letter-spacing effect by drawing char by char
+  const x = canvas.width / 2;
+  const y = canvas.height * CERT_CONFIG.nameY;
+
+  // Elegant letter-spacing: measure total width, then draw spaced
+  drawSpacedText(ctx, name.toUpperCase(), x, y, fs * 0.18);
+
+  // Show preview
+  document.getElementById('previewSection').classList.add('visible');
+  document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // Update download button
+  document.getElementById('btnDownload').setAttribute('data-name', name);
+}
+
+// Draw text with custom letter-spacing (canvas lacks native letterSpacing in some browsers)
+function drawSpacedText(ctx, text, cx, y, spacing) {
+  const totalWidth = measureSpacedText(ctx, text, spacing);
+  let x = cx - totalWidth / 2;
+  for (let i = 0; i < text.length; i++) {
+    ctx.fillText(text[i], x, y);
+    x += ctx.measureText(text[i]).width + (i < text.length - 1 ? spacing : 0);
+  }
+}
+function measureSpacedText(ctx, text, spacing) {
+  let w = 0;
+  for (let i = 0; i < text.length; i++) {
+    w += ctx.measureText(text[i]).width;
+    if (i < text.length - 1) w += spacing;
+  }
+  return w;
+}
+
+/*
+   DOWNLOAD
+ */
+function downloadCert() {
+  const canvas = document.getElementById('certCanvas');
+  if (!canvas.width) return;
+
+  const name     = currentName || 'certificate';
+  const safeName = name.replace(/[^a-z0-9 ]/gi, '').replace(/\s+/g, '_');
+  const link     = document.createElement('a');
+  link.download  = `Certificate_${safeName}_Eminence2K26.png`;
+  link.href      = canvas.toDataURL('image/png', 1.0);
+  link.click();
+}
+
+/* 
+   GOOGLE FONTS PRELOAD INTO CANVAS
+   Canvas uses document fonts — wait for them to load
+*/
+document.fonts.ready.then(() => {
+  // Warm up font in canvas with an invisible draw
+  const tmp = document.createElement('canvas');
+  const ctx = tmp.getContext('2d');
+  ctx.font = `italic 600 40px 'Cormorant Garamond'`;
+  ctx.fillText(' ', 0, 0);
+});
+</script>
+</body>
+</html>

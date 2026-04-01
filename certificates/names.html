@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Names → JS Array Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --neon:#00f5ff; --neon2:#bf00ff; --dark:#030712; }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:'Exo 2',sans-serif; background:var(--dark); color:#e0e0ff;
+      min-height:100vh; padding:clamp(1.5rem,5vw,3rem);
+    }
+    body::before {
+      content:''; position:fixed; inset:0; z-index:0;
+      background-image:linear-gradient(rgba(0,245,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.025) 1px,transparent 1px);
+      background-size:50px 50px; pointer-events:none;
+    }
+    .wrap { position:relative; z-index:1; max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:1.5rem; }
+    h1 {
+      font-family:'Orbitron',monospace; font-size:clamp(.9rem,3vw,1.1rem); font-weight:700; letter-spacing:.2em;
+      background:linear-gradient(90deg,var(--neon),var(--neon2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    p { font-size:.83rem; color:rgba(224,224,255,.45); line-height:1.6; }
+    label { font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--neon); font-weight:600; }
+    textarea {
+      width:100%; min-height:160px; resize:vertical;
+      background:rgba(0,0,0,.35); border:1px solid rgba(0,245,255,.18);
+      border-radius:10px; padding:.8rem 1rem;
+      color:#fff; font-family:'Exo 2',sans-serif; font-size:.88rem; line-height:1.6;
+      outline:none; transition:border-color .2s;
+    }
+    textarea:focus { border-color:rgba(0,245,255,.5); }
+    button {
+      padding:.65rem 1.6rem; border-radius:9px;
+      border:1px solid rgba(0,245,255,.3); background:rgba(0,245,255,.08);
+      color:var(--neon); font-family:'Orbitron',monospace; font-size:.72rem;
+      font-weight:700; letter-spacing:.18em; cursor:pointer; transition:all .2s;
+      align-self:flex-start;
+    }
+    button:hover { background:rgba(0,245,255,.18); border-color:var(--neon); }
+    .out-wrap { display:flex; flex-direction:column; gap:.5rem; }
+    .out-label { font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(0,245,255,.55); }
+    .output {
+      width:100%; min-height:120px; resize:vertical;
+      background:rgba(0,0,0,.5); border:1px solid rgba(0,245,255,.12);
+      border-radius:10px; padding:.8rem 1rem;
+      color:#b0ffd8; font-family:monospace; font-size:.82rem; line-height:1.7;
+      outline:none;
+    }
+    .copy-btn {
+      padding:.5rem 1.2rem; font-size:.65rem; letter-spacing:.15em;
+      border-color:rgba(0,255,140,.25); background:rgba(0,255,140,.06); color:#00ff8c;
+    }
+    .copy-btn:hover { background:rgba(0,255,140,.15); border-color:#00ff8c; }
+    .count { font-size:.72rem; color:rgba(224,224,255,.3); letter-spacing:.1em; }
+    .note { font-size:.72rem; color:rgba(255,184,0,.5); line-height:1.55; }
+    .note strong { color:rgba(255,184,0,.8); }
+    a.back { font-size:.72rem; color:var(--neon); text-decoration:none; opacity:.6; transition:opacity .2s; }
+    a.back:hover { opacity:1; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Names → JS Array Converter</h1>
+  <p>Paste names from Excel (one name per line, or comma-separated). This tool converts them into the JavaScript array format needed by <strong>certificate.html</strong>.</p>
+
+  <div>
+    <label>Paste names here</label>
+    <textarea id="input" placeholder="Rahul Sharma&#10;Priya Singh&#10;Ankit Verma&#10;..."></textarea>
+  </div>
+
+  <button onclick="convert()">⚡ Convert</button>
+
+  <div class="out-wrap" id="outWrap" style="display:none">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem">
+      <div class="out-label">Paste this into certificate.html → PARTICIPANTS array</div>
+      <button class="copy-btn" onclick="copyOutput()">Copy</button>
+    </div>
+    <textarea class="output" id="output" readonly></textarea>
+    <div class="count" id="count"></div>
+    <p class="note">
+      <strong>How to use:</strong> Open <code>certificate.html</code>, find the <code>const PARTICIPANTS = [</code> line,
+      and replace everything between the square brackets with the output above. Save the file.
+    </p>
+  </div>
+
+  <a class="back" href="certificate.html">← Back to Certificate Portal</a>
+</div>
+
+<script>
+function convert() {
+  const raw = document.getElementById('input').value;
+  // Split by newline or comma
+  const names = raw
+    .split(/[\n,]+/)
+    .map(n => n.trim().replace(/^["']|["']$/g, ''))   // strip quotes
+    .filter(n => n.length > 0)
+    .filter((n, i, a) => a.indexOf(n) === i);          // dedupe
+
+  if (!names.length) return;
+
+  const arr = names.map((n, i) =>
+    `  "${n}"${i < names.length - 1 ? ',' : ''}`
+  ).join('\n');
+
+  document.getElementById('output').value = arr;
+  document.getElementById('count').textContent = `${names.length} name${names.length !== 1 ? 's' : ''} converted`;
+  document.getElementById('outWrap').style.display = 'flex';
+}
+
+function copyOutput() {
+  const ta = document.getElementById('output');
+  ta.select();
+  navigator.clipboard.writeText(ta.value).catch(() => document.execCommand('copy'));
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = '✔ Copied!';
+  setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+}
+</script>
+</body>
+</html>
