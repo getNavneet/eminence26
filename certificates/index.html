@@ -258,6 +258,8 @@
     <div class="suggestions" id="suggestions"></div>
     <!-- Status -->
     <div class="status-msg" id="statusMsg"></div>
+    <div class="onspot-msg" id="onSpot">
+      </div>
   </div>
 
   <!-- Certificate Preview -->
@@ -1647,6 +1649,18 @@ function setStatus(type, msg) {
   const el = document.getElementById('statusMsg');
   el.textContent = msg;
   el.className = `status-msg ${type}`;
+  const el2 = document.getElementById('onSpot');
+if (type === 'err') {
+    el2.innerHTML = `
+      <div>
+        <a href="/onspot.html">Click here</a>
+        if you registered on the spot on 25th March and your name doesn't appear in the search.
+      </div>`;
+    el2.classList.add('visible');
+  } else {
+    el2.innerHTML = ''; // clear previous error message
+    el2.classList.remove('visible');
+  }
 }
 
 
