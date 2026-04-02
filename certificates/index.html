@@ -118,6 +118,29 @@
       transition: all 0.2s;
       white-space: nowrap;
     }
+    .onspot-box {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.onspot-btn {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.onspot-btn:hover {
+  opacity: 0.8;
+}
+
+.onspot-text {
+  color: #555;
+  margin-left: 4px;
+}
     .btn-search:hover {
       background: rgba(0,245,255,0.2);
       border-color: var(--neon);
@@ -1646,16 +1669,20 @@ function searchName() {
 }
 
 function setStatus(type, msg) {
+  const inputEl = document.getElementById('nameInput');
+  const rawValue = inputEl.value.trim();
+  const q = normalise(rawValue);
+
   const el = document.getElementById('statusMsg');
   el.textContent = msg;
   el.className = `status-msg ${type}`;
   const el2 = document.getElementById('onSpot');
 if (type === 'err') {
-    el2.innerHTML = `
-      <div>
-        <a href="/onspot.html">Click here</a>
-        if you registered on the spot on 25th March and your name doesn't appear in the search.
-      </div>`;
+  el2.innerHTML = `
+  <div class="onspot-box">
+    <button class="onspot-btn" onclick="generateCert('${q}')">Click here</button>
+    <span class="onspot-text">if you have on-spot registration</span>
+  </div>`;
     el2.classList.add('visible');
   } else {
     el2.innerHTML = ''; // clear previous error message
